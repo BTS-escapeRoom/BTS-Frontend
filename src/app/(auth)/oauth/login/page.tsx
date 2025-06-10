@@ -1,0 +1,32 @@
+'use client'
+
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
+
+export default function OAuthRedirectPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const result = searchParams.get('result')
+
+  useEffect(() => {
+    if (!result) {
+      router.replace('/login')
+      return
+    }
+
+    switch (result) {
+      case 'success':
+        router.replace('/')
+        break
+      case 'signup':
+        // case 'emptyNickname':
+        router.replace('/nickname')
+        break
+      default:
+        alert('일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.')
+        router.replace('/login')
+    }
+  }, [result, router])
+
+  return null
+}
