@@ -1,8 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const pretendard = localFont({
+  src: '../public/fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+})
 
 export const metadata: Metadata = {
   title: '방탈소년단',
@@ -16,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} flex h-full justify-center text-black`}>
+      <body className={`${pretendard.className} flex h-full justify-center text-black`}>
         <div className="h-full w-full max-w-[600px] bg-[#fff]">{children}</div>
       </body>
     </html>
