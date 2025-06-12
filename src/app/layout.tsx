@@ -3,9 +3,9 @@ import localFont from 'next/font/local'
 import './globals.css'
 
 const pretendard = localFont({
-  src: '../public/fonts/PretendardVariable.woff2',
+  src: '../../public/fonts/PretendardVariable.woff2',
   display: 'swap',
-  weight: '45 920',
+  weight: '100 900',
   variable: '--font-pretendard',
 })
 
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${pretendard.className} flex h-full justify-center text-black`}>
+    <html lang="en" className={`h-full ${pretendard.className}`}>
+      <body className={`flex h-full justify-center text-black`}>
         <div className="h-full w-full max-w-[600px] bg-[#fff]">{children}</div>
       </body>
     </html>
