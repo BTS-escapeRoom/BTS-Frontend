@@ -9,9 +9,9 @@ interface Props {
 }
 
 const providerLabelMap: Record<SocialProvider, string> = {
-  kakao: '카카오로 로그인',
-  naver: '네이버로 로그인',
-  apple: 'Apple로 로그인',
+  kakao: '카카오 로그인',
+  naver: '네이버 로그인',
+  apple: 'Apple 로그인',
 }
 
 export const SocialLoginButton = ({ provider, onClick, icon }: Props) => {
@@ -23,7 +23,7 @@ export const SocialLoginButton = ({ provider, onClick, icon }: Props) => {
 
   return (
     <button
-      className={`box-border flex h-[42px] w-full items-center justify-center gap-[16px] rounded-md font-semibold ${bgClass}`}
+      className={`font-medium-16 box-border flex h-[42px] w-full items-center justify-center gap-[16px] rounded-md ${bgClass}`}
       onClick={onClick}
     >
       <span className="h-[24px] w-[24px]">{icon}</span>
