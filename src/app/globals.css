@@ -25,4 +25,36 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .text-bold-12 {
+    @apply text-12 font-bold;
+  }
+  .text-bold-14 {
+    @apply text-14 font-bold;
+  }
+  .text-bold-16 {
+    @apply text-16 font-bold;
+  }
+  .text-bold-18 {
+    @apply text-18 font-bold;
+  }
+  .text-bold-20 {
+    @apply text-20 font-bold;
+  }
+
+  /* Medium */
+  .text-medium-12 {
+    @apply text-12 font-medium;
+  }
+  .text-medium-14 {
+    @apply text-14 font-medium;
+  }
+  .text-medium-16 {
+    @apply text-16 font-medium;
+  }
+  .text-medium-18 {
+    @apply text-18 font-medium;
+  }
+  .text-medium-20 {
+    @apply text-20 font-medium;
+  }
 }
