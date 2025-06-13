@@ -2,8 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { Suspense } from 'react'
 
-export default function OAuthRedirectPage() {
+function CallbackContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const result = searchParams.get('result')
@@ -19,7 +20,6 @@ export default function OAuthRedirectPage() {
         router.replace('/')
         break
       case 'signup':
-        // case 'emptyNickname':
         router.replace('/nickname')
         break
       default:
@@ -29,4 +29,12 @@ export default function OAuthRedirectPage() {
   }, [result, router])
 
   return null
+}
+
+export default function OAuthRedirectPage() {
+  return (
+    <Suspense fallback={null}>
+      <CallbackContent />
+    </Suspense>
+  )
 }
