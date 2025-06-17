@@ -29,7 +29,7 @@ export default function SHeader({ title, showBack, showClose, onBack, onClose }:
 
       {showClose && (
         <button
-          onClick={onClose ?? (() => router.push('/'))}
+          onClick={onClose ?? (() => router.back())}
           className="absolute right-4 flex h-9 w-9 items-center justify-center"
         >
           <IconClose />
