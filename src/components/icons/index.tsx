@@ -1,3 +1,5 @@
-export { default as IconKakao } from './IconKakao'
-export { default as IconNaver } from './IconNaver'
-export { default as IconApple } from './IconApple'
+export { default as IconKakao } from './Kakao'
+export { default as IconNaver } from './Naver'
+export { default as IconApple } from './Apple'
+export { default as IconBack } from './Back'
+export { default as IconClose } from './Close'

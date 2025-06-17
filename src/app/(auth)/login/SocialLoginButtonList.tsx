@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { SocialLoginButton } from './SocialLoginButton'
-import IconKakao from '@/components/icons/IconKakao'
-import IconNaver from '@/components/icons/IconNaver'
-import IconApple from '@/components/icons/IconApple'
+import { IconKakao, IconNaver, IconApple } from '@/components/icons'
 
 export const SocialLoginButtonList = () => {
   const [origin, setOrigin] = useState('')

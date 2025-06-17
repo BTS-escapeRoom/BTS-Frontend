@@ -1,6 +1,6 @@
 import { SVGProps } from 'react'
 
-export default function IconMessage({
+export default function IconKakao({
   width = 24,
   height = 24,
   fill = '#000000',
