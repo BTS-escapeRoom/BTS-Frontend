@@ -13,7 +13,7 @@ export const SocialLoginButtonList = () => {
 
   const handleLogin = (provider: 'kakao' | 'naver' | 'apple') => {
     if (!origin) return
-    window.location.href = `https://apis.bangtal-boys.com/oauth2/authorization/${provider}?return-url=${origin}/oauth/callback`
+    window.location.href = `https://apis.bangtal-boys.com/oauth2/authorization/${provider}?return-url=${encodeURIComponent(origin)}/oauth/callback`
   }
 
   return (

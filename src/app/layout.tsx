@@ -20,9 +20,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`h-full ${pretendard.className}`}>
-      <body className={`flex h-full justify-center text-black`}>
-        <div className="h-full w-full max-w-[600px] bg-[#fff]">{children}</div>
+    <html lang="en" className={`${pretendard.className} `}>
+      <body className="bg-gray02">
+        <div className="z-0 mx-auto min-h-screen w-full max-w-[600px] bg-[#fff] text-black">
+          <main className="flex min-h-screen w-full flex-col">{children}</main>
+        </div>
       </body>
     </html>
   )

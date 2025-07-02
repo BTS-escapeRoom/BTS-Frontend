@@ -1,8 +1,7 @@
 'use client'
 
-import { useHeader } from '@/contexts/HeaderContext'
 import SHeader from './SHeader'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface HeaderConfig {
   showHeader?: boolean
@@ -15,13 +14,23 @@ interface HeaderConfig {
 
 export default function HeaderWrapper() {
   const pathname = usePathname()
+  const router = useRouter()
 
   const getHeaderConfig = () => {
+    const headerConfig = {
+      showHeader: true,
+    }
     switch (pathname) {
       case '/login':
-        return { showClose: true }
+        return { ...headerConfig, showClose: true }
+      case '/signup':
+        const onBack = () => {
+          router.replace('/login')
+        }
+        return { ...headerConfig, showBack: true, title: '닉네임 설정', onBack }
     }
     return {
+      ...headerConfig,
       showHeader: false,
     }
   }

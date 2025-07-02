@@ -18,16 +18,16 @@ export default function IconClose({
       <path
         d="M11 24.0919L24.0919 11"
         stroke={fill}
-        stroke-width="1.54289"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
+        strokeWidth="1.54289"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
       />
       <path
         d="M24.0919 24.0919L11 11"
         stroke={fill}
-        stroke-width="1.54289"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
+        strokeWidth="1.54289"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
       />
     </svg>
   )
