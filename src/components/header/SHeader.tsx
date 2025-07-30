@@ -31,9 +31,7 @@ export default function SHeader({
         </button>
       )}
 
-      {title && (
-        <h1 className="max-w-[70%] truncate text-center text-[16px] font-semibold">{title}</h1>
-      )}
+      {title && <h1 className="max-w-[70%] truncate text-center text-16 font-semibold">{title}</h1>}
 
       {showClose && (
         <button

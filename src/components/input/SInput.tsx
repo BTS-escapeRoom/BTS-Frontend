@@ -24,7 +24,7 @@ export default function SInput({
   ...props
 }: SInputProps) {
   const baseStyle =
-    'w-full h-[40px] rounded-md px-[10px] py-[10px] text-[16px] outline-none text-[14px] placeholder:text-gray04 text-gray07 '
+    'w-full h-[40px] rounded-md px-[10px] py-[10px] outline-none text-14 placeholder:text-gray04 text-gray07 '
   const disabledStyle = 'disabled:cursor-default disabled:bg-gray-03'
   const errorStyle = 'border-red-500 focus:ring-red-500'
   const normalStyle = 'bg-gray01'
