@@ -38,7 +38,7 @@ export default function NicknameForm() {
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
       />
-      <div className="fixed bottom-[24px] flex w-full flex-col items-center justify-center gap-[16px] px-[16px]">
+      <div className="fixed bottom-[24px] flex w-full max-w-[600px] flex-col items-center justify-center gap-[16px] px-[16px]">
         <div className="text-14 text-gray04">닉네임은 등록 후 언제든 변경할 수 있어요!</div>
         <SButton disabled={isDisabled || isPending} onClick={onSubmit}>
           {isPending ? '설정 중...' : '완료'}
