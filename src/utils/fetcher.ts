@@ -6,9 +6,7 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      Authorization:
-        accessToken ??
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzLXRva2VuIiwiaWQiOjEsInVzZXJuYW1lIjoi6rSA66as7J6QIiwicm9sZSI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MzYyMjgzMDUsImV4cCI6ODA2MzAyMjgzMDV9.SkiUghz1aukqU2UNpUEON-N5mrQs73I1NuaoifjL0DI',
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
       ...options?.headers,
     },
     credentials: 'include', // 쿠키에서 refresh token 사용
