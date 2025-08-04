@@ -54,13 +54,17 @@ async function refreshAccessToken(): Promise<string | null> {
     console.log('res', res)
     console.log('res headers', res.headers)
 
-    const headersObj: Record<string, string> = {}
-    res.headers.forEach((value, key) => {
-      headersObj[key] = value
-    })
-    console.log(headersObj)
+    // newToken은 cookie에 Access-Token으로저장되어 전달됨.
+    // cookie에서 accesstoken을 가져와서 request 헤더에 추가할거임.
+    // cookie에 저장된 accesstoken은 바로 지울예정
 
-    const newToken = res.headers.get('Access-Token')?.replace('Bearer ', '')
+    const newToken = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('Access-Token='))
+      ?.split('=')[1]
+
+    // delete cookie
+    document.cookie = 'Access-Token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'
 
     if (newToken) {
       localStorage.setItem('accessToken', newToken)
