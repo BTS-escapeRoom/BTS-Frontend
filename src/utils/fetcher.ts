@@ -52,17 +52,9 @@ async function refreshAccessToken(): Promise<string | null> {
     })
     if (!res.ok) return null
 
-    // newToken은 cookie에 Access-Token으로저장되어 전달됨.
-    // cookie에서 accesstoken을 가져와서 request 헤더에 추가할거임.
-    // cookie에 저장된 accesstoken은 바로 지울예정
+    const data = await res.json()
 
-    const newToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('access-token='))
-      ?.split('=')[1]
-
-    // delete cookie
-    document.cookie = 'access-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'
+    const newToken = data?.data?.access_token
 
     if (newToken) {
       localStorage.setItem('accessToken', newToken)
