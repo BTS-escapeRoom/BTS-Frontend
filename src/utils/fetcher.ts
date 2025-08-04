@@ -51,6 +51,8 @@ async function refreshAccessToken(): Promise<string | null> {
       credentials: 'include',
     })
     if (!res.ok) return null
+    console.log('res', res)
+    console.log('res headers', res.headers)
 
     const newToken = res.headers.get('Access-Token')?.replace('Bearer ', '')
 
