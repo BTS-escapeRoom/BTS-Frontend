@@ -46,14 +46,14 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
 
 async function refreshAccessToken(): Promise<string | null> {
   try {
-    const res = await fetch(`${BASE_URL}/v1/auth/refresh`, {
+    const res = await fetch(`${BASE_URL}/reissue`, {
       method: 'POST',
       credentials: 'include',
     })
     if (!res.ok) return null
 
-    const data = await res.json()
-    const newToken = data?.data?.accessToken
+    const newToken = res.headers.get('Authorization')?.replace('Bearer ', '')
+
     if (newToken) {
       localStorage.setItem('accessToken', newToken)
       return newToken
