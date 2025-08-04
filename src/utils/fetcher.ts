@@ -52,7 +52,7 @@ async function refreshAccessToken(): Promise<string | null> {
     })
     if (!res.ok) return null
 
-    const newToken = res.headers.get('access-token')?.replace('Bearer ', '')
+    const newToken = res.headers.get('Access-Token')?.replace('Bearer ', '')
 
     if (newToken) {
       localStorage.setItem('accessToken', newToken)
