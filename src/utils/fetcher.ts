@@ -54,7 +54,7 @@ async function refreshAccessToken(): Promise<string | null> {
 
     const data = await res.json()
 
-    const newToken = data?.data?.access_token
+    const newToken = data?.accessToken
 
     if (newToken) {
       localStorage.setItem('accessToken', newToken)
