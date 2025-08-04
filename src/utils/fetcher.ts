@@ -23,7 +23,7 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: newToken,
+        Authorization: `Bearer ${newToken}`,
         ...options?.headers,
       },
       credentials: 'include',
@@ -52,7 +52,7 @@ async function refreshAccessToken(): Promise<string | null> {
     })
     if (!res.ok) return null
 
-    const newToken = res.headers.get('Authorization')?.replace('Bearer ', '')
+    const newToken = res.headers.get('access-token')?.replace('Bearer ', '')
 
     if (newToken) {
       localStorage.setItem('accessToken', newToken)
