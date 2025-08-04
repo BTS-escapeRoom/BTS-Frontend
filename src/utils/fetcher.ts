@@ -54,6 +54,12 @@ async function refreshAccessToken(): Promise<string | null> {
     console.log('res', res)
     console.log('res headers', res.headers)
 
+    const headersObj: Record<string, string> = {}
+    res.headers.forEach((value, key) => {
+      headersObj[key] = value
+    })
+    console.log(headersObj)
+
     const newToken = res.headers.get('Access-Token')?.replace('Bearer ', '')
 
     if (newToken) {
