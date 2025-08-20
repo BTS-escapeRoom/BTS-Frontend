@@ -13,13 +13,16 @@ export default function NicknameForm() {
   const { showToast } = useToast()
   const router = useRouter()
 
-  const onSubmit = () => {
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     mutate(
       { nickname },
       {
         onSuccess: () => {
-          showToast('닉네임이 설정되었습니다!', 'success')
-          router.replace('/')
+          showToast('닉네임이 설정되었습니다!', 'success', 2000, {
+            callback: () => router.replace('/intro'),
+            delay: 500,
+          })
         },
         onError: (err) => {
           showToast(err.message || '닉네임 설정 중 오류 발생', 'error')

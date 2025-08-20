@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import HeaderWrapper from '@/components/header/HeaderWrapper'
+import HeaderController from '@/components/header/HeaderController'
 import { SocialLoginButtonList } from './SocialLoginButtonList'
 
 export default function LoginPage() {
@@ -10,7 +10,7 @@ export default function LoginPage() {
   }
   return (
     <>
-      <HeaderWrapper />
+      <HeaderController />
       <div className="flex h-full w-full flex-col items-center justify-start gap-[96px] pt-[140px]">
         <Image src="/images/Logo.png" alt="방탈소년단" width={190} height={166} priority />
         <div className="flex flex-col items-center justify-center gap-[24px]">

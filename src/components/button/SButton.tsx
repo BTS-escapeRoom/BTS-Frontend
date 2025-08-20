@@ -18,8 +18,7 @@ export default function SButton({
   ...rest
 }: SButtonProps) {
   const baseStyle = `
-    bg-gray07 rounded-sm text-white w-full h-[45px] text-bold-16
-    hover:bg-gray05
+    bg-gray07 rounded-sm text-white w-full h-[45px] text-bold-16 inline-flex items-center justify-center
     disabled:bg-gray04 disabled:cursor-default
   `.trim()
 

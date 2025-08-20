@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useRef } from 'react'
+import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react'
 import SToast from './SToast'
 
 type ToastType = 'success' | 'error' | 'warning' | 'info'
@@ -12,7 +12,12 @@ interface ToastState {
 }
 
 interface ToastContextType {
-  showToast: (message: string, type?: ToastType, duration?: number) => void
+  showToast: (
+    message: string,
+    type?: ToastType,
+    duration?: number,
+    options?: { callback?: () => void; delay?: number },
+  ) => void
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined)
@@ -26,22 +31,39 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const hideToast = () => {
+  const hideToast = useCallback(() => {
     setToast((prev) => ({ ...prev, visible: false }))
-  }
+  }, [])
 
   const showToast = useCallback(
-    (message: string, type: ToastType = 'info', duration: number = 3000) => {
+    (
+      message: string,
+      type: ToastType = 'info',
+      duration: number = 3000,
+      options?: { callback?: () => void; delay?: number },
+    ) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
       setToast({ message, type, visible: true })
+
+      if (options?.callback && options.delay != null) {
+        setTimeout(() => {
+          options.callback?.()
+        }, options.delay)
+      }
 
       timeoutRef.current = setTimeout(() => {
         hideToast()
       }, duration)
     },
-    [],
+    [hideToast],
   )
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   return (
     <ToastContext.Provider value={{ showToast }}>

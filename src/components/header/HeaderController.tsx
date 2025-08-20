@@ -12,7 +12,7 @@ interface HeaderConfig {
   onClose?: () => void
 }
 
-export default function HeaderWrapper() {
+export default function HeaderController() {
   const pathname = usePathname()
   const router = useRouter()
 

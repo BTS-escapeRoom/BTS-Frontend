@@ -1,6 +1,6 @@
 'use client'
 
-import HeaderWrapper from '@/components/header/HeaderWrapper'
+import HeaderController from '@/components/header/HeaderController'
 import { IconKeyhole } from '@/components/icons'
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -11,7 +11,7 @@ export default function SignUpPage() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <HeaderWrapper />
+        <HeaderController />
         <div className="z-1 relative flex flex-1 flex-col items-center justify-center px-[16px] text-gray07">
           <div className="-z-1 absolute inset-0 mt-[72px] flex items-start justify-center">
             <div className="absolute top-0 h-[150px] w-[150px] rounded-full bg-[#6EFF7F] opacity-80 blur-[40px]" />

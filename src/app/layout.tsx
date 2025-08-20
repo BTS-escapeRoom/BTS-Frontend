@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { ToastProvider } from '@/components/toast/ToastProvider'
+import BottomNavController from '@/components/nav/BottomNavController'
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -25,7 +26,10 @@ export default function RootLayout({
       <body className="bg-gray02">
         <div className="z-0 mx-auto min-h-screen w-full max-w-[600px] bg-[#fff] text-black">
           <ToastProvider>
-            <main className="flex min-h-screen w-full flex-col">{children}</main>
+            <div className="flex min-h-screen flex-col">
+              <main className="flex w-full flex-1 flex-col">{children}</main>
+              <BottomNavController />
+            </div>
           </ToastProvider>
         </div>
       </body>

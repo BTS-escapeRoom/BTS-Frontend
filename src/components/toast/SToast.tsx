@@ -15,7 +15,7 @@ export default function Toast({ message, type, visible, onClose }: ToastProps) {
   return (
     <div
       className={clsx(
-        'fixed bottom-[89px] left-1/2 -translate-x-1/2 rounded-sm text-center text-14 text-gray07 transition-all duration-300',
+        'fixed bottom-[89px] left-1/2 -translate-x-1/2 rounded-sm text-center text-14 text-gray07 transition-all duration-200',
         'w-[calc(100%-32px)] max-w-[360px] border border-solid border-black',
         'z-100 flex flex-row items-center',
         {

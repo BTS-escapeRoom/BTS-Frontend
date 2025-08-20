@@ -23,7 +23,7 @@ export const SocialLoginButton = ({ provider, onClick, icon }: Props) => {
 
   return (
     <button
-      className={`font-medium-16 box-border flex h-[42px] w-full items-center justify-center gap-[16px] rounded-md ${bgClass}`}
+      className={`text-medium-14 box-border flex h-[42px] w-full items-center justify-center gap-[4px] rounded-md ${bgClass}`}
       onClick={onClick}
     >
       <span className="h-[24px] w-[24px]">{icon}</span>
