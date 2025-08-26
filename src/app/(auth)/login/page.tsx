@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import HeaderController from '@/components/header/HeaderController'
-import { SocialLoginButtonList } from './SocialLoginButtonList'
+import { SocialLoginButtonList } from './components/SocialLoginButtonList'
 
 export default function LoginPage() {
   const kakaoLoginHandler = () => {

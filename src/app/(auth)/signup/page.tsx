@@ -4,7 +4,7 @@ import HeaderController from '@/components/header/HeaderController'
 import { IconKeyhole } from '@/components/icons'
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import NicknameForm from './SignupForm'
+import NicknameForm from './components/SignupForm'
 
 export default function SignUpPage() {
   const [queryClient] = useState(() => new QueryClient())
