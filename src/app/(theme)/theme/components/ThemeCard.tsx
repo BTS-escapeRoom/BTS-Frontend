@@ -1,25 +1,39 @@
+'use client'
 import Image from 'next/image'
-import { Theme } from '../types/theme'
+import { Theme } from '@/features/theme'
 import SChip from '@/components/chip/SChip'
 import { IconClock } from '@/components/icons'
 import GenreChip from './GenreChip'
+import { useState } from 'react'
 
 type ThemeCardProps = {
   theme: Theme
 }
 
 export default function ThemeCard({ theme }: ThemeCardProps) {
-  const { title, store, district, genre, time, difficulty, thumbnail } = theme
+  const { title, store, district, genreType, time, difficulty, thumbnail } = theme
+  const [hasError, setHasError] = useState(false)
+
+  const showFallback = !thumbnail || hasError
   return (
     <div className="flex w-[150px] flex-col">
       {/* 이미지 영역 */}
       <div className="relative h-[190px] w-full overflow-hidden rounded-md bg-gray06">
-        {thumbnail ? (
-          <Image src={thumbnail} alt={title} fill className="object-cover" />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center px-[8px] text-14 text-white">
-            {title}_{store}
+        {showFallback ? (
+          <div className="flex h-full w-full items-center justify-center px-2">
+            <span className="text-semibold-12 line-clamp-3 break-words text-center text-white">
+              {title}_{store}
+            </span>
           </div>
+        ) : (
+          <Image
+            src={thumbnail}
+            alt={title}
+            fill
+            className="object-cover"
+            onError={() => setHasError(true)}
+            unoptimized // 필요 시 최적화 우회
+          />
         )}
       </div>
 
@@ -32,7 +46,7 @@ export default function ThemeCard({ theme }: ThemeCardProps) {
           <span className="whitespace-nowrap text-12">{district}</span>
         </div>
         <div className="item-center flex gap-[2px]">
-          {genre && <GenreChip genre={genre} />}
+          {genreType && <GenreChip genre={genreType} />}
           <SChip text={`${time}분`} icon={<IconClock />} />
           <SChip text={`난이도 ${difficulty}`} bgColor="transparent" />
         </div>

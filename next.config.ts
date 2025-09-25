@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  images: {
+    domains: ['i.postimg.cc', 'losttemple2.co.kr'],
+    // formats: ['image/avif','image/webp'], // 선택
+  },
 }
 
 export default nextConfig

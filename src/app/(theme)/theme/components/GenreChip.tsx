@@ -17,6 +17,8 @@ const genreColorMap: Record<string, { bgColor: string; textColor: string }> = {
   감성: { bgColor: '#FF8BA0', textColor: '#fff' },
   코믹: { bgColor: '#FFD804', textColor: '#000' },
   미스터리: { bgColor: '#2F4F4F', textColor: '#fff' },
+  '미스터리/추리': { bgColor: '#2F4F4F', textColor: '#fff' },
+  추리: { bgColor: '#2F4F4F', textColor: '#fff' },
   SF: { bgColor: '#424242', textColor: '#fff' },
   사극: { bgColor: '#8B4513', textColor: '#fff' },
   잠입: { bgColor: '#778899', textColor: '#fff' },
