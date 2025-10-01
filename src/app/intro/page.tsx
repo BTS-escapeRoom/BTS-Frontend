@@ -29,11 +29,11 @@ export default function IntroPage() {
         <h1>환영합니다!</h1>
         <h1 className="mt-[16px]">방탈소년단과 함께</h1>
         <h1>새로운 방의 문을 열어봐요!</h1>
-        <div className="fixed bottom-[24px] left-0 z-10 w-full max-w-[600px] px-[16px]">
-          <SButton as={Link} href="/theme">
-            입장
-          </SButton>
-        </div>
+      </div>
+      <div className="fixed bottom-[24px] flex w-full max-w-[600px] flex-col items-center justify-center gap-[16px] px-[16px]">
+        <SButton as={Link} href="/theme">
+          입장
+        </SButton>
       </div>
     </div>
   )

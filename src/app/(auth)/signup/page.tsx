@@ -2,12 +2,29 @@
 
 import HeaderController from '@/components/header/HeaderController'
 import { IconKeyhole } from '@/components/icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NicknameForm from './components/SignupForm'
+import { useAuth } from '@/features/auth'
+import { useRouter } from 'next/navigation'
 
 export default function SignUpPage() {
   const [queryClient] = useState(() => new QueryClient())
+  const { isAuthenticated, isLoading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    // 로딩이 완료되고 로그인된 상태라면 메인 페이지로 리다이렉트
+    if (!isLoading && isAuthenticated) {
+      router.replace('/')
+    }
+  }, [isAuthenticated, isLoading, router])
+
+  // 로딩 중이거나 로그인된 상태라면 아무것도 렌더링하지 않음
+  if (isLoading || isAuthenticated) {
+    return null
+  }
+
   return (
     <>
       <QueryClientProvider client={queryClient}>

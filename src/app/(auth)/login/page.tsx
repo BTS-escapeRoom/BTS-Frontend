@@ -1,13 +1,34 @@
+'use client'
+
 import Image from 'next/image'
 import HeaderController from '@/components/header/HeaderController'
 import { SocialLoginButtonList } from './components/SocialLoginButtonList'
+import { useAuth } from '@/features/auth'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function LoginPage() {
+  const { isAuthenticated, isLoading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    // 로딩이 완료되고 로그인된 상태라면 메인 페이지로 리다이렉트
+    if (!isLoading && isAuthenticated) {
+      router.replace('/')
+    }
+  }, [isAuthenticated, isLoading, router])
+
+  // 로딩 중이거나 로그인된 상태라면 아무것도 렌더링하지 않음
+  if (isLoading || isAuthenticated) {
+    return null
+  }
+
   const kakaoLoginHandler = () => {
     window.location.href = `https://apis.bangtal-boys.com/oauth2/authorization/kakao`
 
     // 지금 url.com?type=kakao&token=abc
   }
+
   return (
     <>
       <HeaderController />

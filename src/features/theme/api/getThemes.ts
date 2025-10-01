@@ -1,7 +1,6 @@
+import { apiGet } from '@/utils/api'
 import type { Theme } from '../types/model'
 import type { ThemeApiItem, ThemeApiResponse, ThemeQueryParams } from './getThemes.types'
-
-const BASE_URL = 'https://apis.bangtal-boys.com'
 
 // ?a=1&a=2 형태로 배열 직렬화
 function buildQuery(params: ThemeQueryParams = {}) {
@@ -34,24 +33,14 @@ function mapToTheme(item: ThemeApiItem): Theme {
   }
 }
 
-export async function fetchThemes(params: ThemeQueryParams) {
+export async function getThemeList(params: ThemeQueryParams) {
   if (params.sort === 'distance' && (params.latitude == null || params.longitude == null)) {
-    console.warn('[fetchThemes] sort=distance requires latitude & longitude')
+    console.warn('[getThemeList] sort=distance requires latitude & longitude')
   }
 
   const q = buildQuery(params)
-  const res = await fetch(`${BASE_URL}/v1/themes?${q}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
+  const json = await apiGet<ThemeApiResponse>(`/v1/themes?${q}`)
 
-  if (!res.ok) {
-    const errJson = await res.json().catch(() => null)
-    const msg = errJson?.message ?? `HTTP ${res.status}`
-    throw new Error(msg)
-  }
-
-  const json = (await res.json()) as ThemeApiResponse
   const themes = json.data.themes.map(mapToTheme)
   const nextPage = json.data.nextPage
   const totalPage = json.data.totalPage
