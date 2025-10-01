@@ -1,5 +1,8 @@
 import ThemeList from './components/ThemeList'
 import QueryProvider from './components/QueryProvider'
+import ThemeSearchBar from './components/ThemeSearchBar'
+import ThemeSortDropdown from './components/ThemeSortDropdown'
+import ScrollToTopButton from '@/components/button/ScrollToTopButton'
 import type { ThemeQueryParams } from '@/features/theme/api/getThemes.types'
 
 type PageProps = {
@@ -29,22 +32,32 @@ function toNumArray(v?: string | string[]) {
 export default async function ThemePage({ searchParams }: PageProps) {
   const resolvedSearchParams = await searchParams
 
+  const sort = (resolvedSearchParams?.sort as ThemeQueryParams['sort']) || 'distance'
+
   const params: Omit<ThemeQueryParams, 'page'> = {
-    sort: resolvedSearchParams?.sort as ThemeQueryParams['sort'],
+    sort,
     genreIdList: toNumArray(resolvedSearchParams?.genreIdList),
     districtIdList: toNumArray(resolvedSearchParams?.districtIdList),
     cityIdList: toNumArray(resolvedSearchParams?.cityIdList),
     minDiff: toNum(resolvedSearchParams?.minDiff),
     maxDiff: toNum(resolvedSearchParams?.maxDiff),
     peoples: toNum(resolvedSearchParams?.peoples),
-    latitude: toNum(resolvedSearchParams?.latitude),
-    longitude: toNum(resolvedSearchParams?.longitude),
+    // 거리순일 때만 위도/경도 포함 (임시로 기본값 설정)
+    ...(sort === 'distance' && {
+      latitude: toNum(resolvedSearchParams?.latitude) || 37.5665, // 서울시청 위도
+      longitude: toNum(resolvedSearchParams?.longitude) || 126.978, // 서울시청 경도
+    }),
     keyword: resolvedSearchParams?.keyword as string,
   }
 
   return (
     <QueryProvider>
+      <ThemeSearchBar />
+      <div className="px-4 pb-2 pt-2">
+        <ThemeSortDropdown />
+      </div>
       <ThemeList params={params} />
+      <ScrollToTopButton />
     </QueryProvider>
   )
 }

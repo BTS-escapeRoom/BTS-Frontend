@@ -16,9 +16,9 @@ export default function ThemeCard({ theme }: ThemeCardProps) {
 
   const showFallback = !thumbnail || hasError
   return (
-    <div className="flex w-[150px] flex-col">
+    <div className="flex w-full flex-col">
       {/* 이미지 영역 */}
-      <div className="relative h-[190px] w-full overflow-hidden rounded-md bg-gray06">
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md bg-gray06">
         {showFallback ? (
           <div className="flex h-full w-full items-center justify-center px-2">
             <span className="text-semibold-12 line-clamp-3 break-words text-center text-white">
@@ -47,8 +47,8 @@ export default function ThemeCard({ theme }: ThemeCardProps) {
         </div>
         <div className="item-center flex gap-[2px]">
           {genreType && <GenreChip genre={genreType} />}
-          <SChip text={`${time}분`} icon={<IconClock />} />
-          <SChip text={`난이도 ${difficulty}`} bgColor="transparent" />
+          <SChip text={`${time || '??'}분`} icon={<IconClock />} />
+          <SChip text={`난이도 ${difficulty || '?'}`} bgColor="transparent" />
         </div>
       </div>
     </div>
