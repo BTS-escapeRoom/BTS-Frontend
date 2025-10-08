@@ -88,9 +88,9 @@ export default function ThemeCommonInfo({ theme }: ThemeCommonInfoProps) {
           <SChip text={timeLabel} icon={<IconClock />} />
         </div>
 
-        {peopleLabel && <div className="mt-[8px] text-12 text-gray07">{peopleLabel}</div>}
+        {peopleLabel && <div className="mt-[8px] text-14 text-gray07">{peopleLabel}</div>}
 
-        <div className="mt-[8px] flex items-center text-12 text-gray07">
+        <div className="mt-[8px] flex items-center text-14 text-gray07">
           <span>난이도:</span>
           <span className="mb-[1px] ml-[2px] inline-flex items-center">{difficultyIcons}</span>
           <span className="ml-[4px]">{difficultyText}</span>

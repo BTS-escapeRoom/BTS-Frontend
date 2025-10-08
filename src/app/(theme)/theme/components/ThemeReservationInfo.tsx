@@ -21,11 +21,11 @@ export default function ThemeReservationInfo({ theme }: ThemeReservationInfoProp
         <div>
           <div className="mt-[16px]">
             <div className="text-semibold-14 text-[#000]">{theme.store.name}</div>
-            <div className="mt-[2px] text-[12px] text-gray05">{theme.store.location}</div>
+            <div className="mt-[2px] text-[14px] text-gray05">{theme.store.location}</div>
           </div>
           <div className="mt-[12px]">
             <div className="text-semibold-14 text-[#000]">가격 정보</div>
-            <div className="mt-[2px] text-[12px] text-gray05">₩ {theme.price.toLocaleString()}</div>
+            <div className="mt-[2px] text-[14px] text-gray05">₩ {theme.price.toLocaleString()}</div>
           </div>
 
           <div className="mt-[12px] w-full">
@@ -34,7 +34,7 @@ export default function ThemeReservationInfo({ theme }: ThemeReservationInfoProp
               {theme.weekdaysTimeList.map((t) => (
                 <li
                   key={t.id}
-                  className="rounded-xl border border-gray03 px-[6px] text-[12px] text-gray05"
+                  className="rounded-xl border border-gray03 px-[6px] text-[14px] text-gray05"
                 >
                   {t.time}
                 </li>
