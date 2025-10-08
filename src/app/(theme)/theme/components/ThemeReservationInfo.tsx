@@ -44,7 +44,7 @@ export default function ThemeReservationInfo({ theme }: ThemeReservationInfoProp
         </div>
       </div>
 
-      {!theme.status && (
+      {theme.status && (
         <div className="sticky bottom-[56px] left-0 right-0 bg-white pb-[16px]">
           <SButton onClick={handleReserve}>바로 예약</SButton>
         </div>
