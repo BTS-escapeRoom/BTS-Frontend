@@ -19,7 +19,7 @@ export default function ThemeReservationInfo({ theme }: ThemeReservationInfoProp
         <ThemeCommonInfo theme={theme} />
 
         <div>
-          <div className="mt-[12px]">
+          <div className="mt-[16px]">
             <div className="text-semibold-14 text-[#000]">{theme.store.name}</div>
             <div className="mt-[2px] text-[12px] text-gray05">{theme.store.location}</div>
           </div>

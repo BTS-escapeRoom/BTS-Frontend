@@ -39,7 +39,7 @@ export default function BottomSheetModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end">
+    <div className="fixed inset-0 z-50 mx-auto flex w-full min-w-[320px] max-w-[600px] items-end">
       {/* Dimmed background */}
       <div
         className="absolute inset-0 bg-black/65 transition-opacity duration-300"
