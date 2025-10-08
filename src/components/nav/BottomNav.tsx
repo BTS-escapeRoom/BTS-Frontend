@@ -18,7 +18,7 @@ const tabs = [
     OutlineIcon: ThemeOutline,
   },
   {
-    href: '/community',
+    href: '/board',
     label: '커뮤니티',
     FilledIcon: CommunityFilled,
     OutlineIcon: CommunityOutline,

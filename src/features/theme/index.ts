@@ -1,4 +1,6 @@
 export * from './types/model'
 export * from './api/getThemes'
 export * from './api/getThemes.types'
+export * from './api/getThemeDetail'
+export * from './api/getThemeDetail.types'
 export * from './hooks/useThemeQuery'

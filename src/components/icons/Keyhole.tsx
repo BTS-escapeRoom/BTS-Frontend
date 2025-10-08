@@ -1,6 +1,6 @@
 import { SVGProps } from 'react'
 
-export default function IconBack({
+export default function IconKeyhole({
   width = 36,
   height = 36,
   fill = 'white',

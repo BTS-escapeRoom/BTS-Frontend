@@ -1,4 +1,4 @@
-import ThemeList from './components/ThemeList'
+import ThemePageClient from './components/ThemePageClient'
 import QueryProvider from './components/QueryProvider'
 import ThemeSearchBar from './components/ThemeSearchBar'
 import ThemeSortDropdown from './components/ThemeSortDropdown'
@@ -56,7 +56,7 @@ export default async function ThemePage({ searchParams }: PageProps) {
       <div className="px-4 pb-2 pt-2">
         <ThemeSortDropdown />
       </div>
-      <ThemeList params={params} />
+      <ThemePageClient params={params} />
       <ScrollToTopButton />
     </QueryProvider>
   )

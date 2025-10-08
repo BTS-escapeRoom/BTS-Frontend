@@ -17,12 +17,15 @@ export default function SButton({
   children,
   ...rest
 }: SButtonProps) {
-  const baseStyle = `
-    bg-gray07 rounded-sm text-white w-full h-[45px] text-bold-16 inline-flex items-center justify-center
-    disabled:bg-gray04 disabled:cursor-default
-  `.trim()
+  const hasBgOverride = /\bbg-|\bbg-\[/.test(className)
+  const hasTextOverride = /\btext-|\btext-\[/.test(className)
 
-  const combinedClassName = `${baseStyle} ${className}`.trim()
+  const baseLayout =
+    `rounded-sm w-full h-[45px] text-semibold-16 inline-flex items-center justify-center disabled:bg-gray04 disabled:cursor-default`.trim()
+  const baseColor =
+    `${hasBgOverride ? '' : 'bg-gray07'} ${hasTextOverride ? '' : 'text-white'}`.trim()
+
+  const combinedClassName = `${baseLayout} ${baseColor} ${className}`.trim()
 
   return (
     <HButton as={as} disabled={disabled} className={combinedClassName} {...rest}>

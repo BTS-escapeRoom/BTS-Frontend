@@ -41,6 +41,22 @@ body {
     @apply text-20 font-bold;
   }
 
+  .text-semibold-12 {
+    @apply text-12 font-semibold;
+  }
+  .text-semibold-14 {
+    @apply text-14 font-semibold;
+  }
+  .text-semibold-16 {
+    @apply text-16 font-semibold;
+  }
+  .text-semibold-18 {
+    @apply text-18 font-semibold;
+  }
+  .text-semibold-20 {
+    @apply text-20 font-semibold;
+  }
+
   /* Medium */
   .text-medium-12 {
     @apply text-12 font-medium;
@@ -57,4 +73,33 @@ body {
   .text-medium-20 {
     @apply text-20 font-medium;
   }
+}
+
+/* Modal animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* 스크롤바 숨기기 */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
