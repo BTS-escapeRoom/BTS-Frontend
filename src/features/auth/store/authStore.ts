@@ -3,6 +3,11 @@
 import { create } from 'zustand'
 import { refreshAccessToken, logout } from '../api/auth'
 
+// refresh token 존재 여부 확인
+function hasRefreshToken(): boolean {
+  return document.cookie.includes('refreshToken=')
+}
+
 interface AuthState {
   accessToken: string | null
   isLoading: boolean
@@ -84,14 +89,20 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   checkAuthStatus: async () => {
-    const { accessToken, refreshToken } = get()
+    const { accessToken } = get()
 
     // accessToken이 있으면 로그인 상태
     if (accessToken) {
       return true
     }
 
-    // accessToken이 없으면 갱신 시도
-    return await refreshToken()
+    // refresh token이 없으면 로그아웃 처리
+    if (!hasRefreshToken()) {
+      await get().logout()
+      return false
+    }
+
+    // accessToken이 없고 refresh token이 있으면 갱신 시도
+    return await get().refreshToken()
   },
 }))

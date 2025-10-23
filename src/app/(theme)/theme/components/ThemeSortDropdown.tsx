@@ -38,7 +38,7 @@ export default function ThemeSortDropdown() {
         aria-label="정렬 옵션 선택"
       >
         <span>{currentLabel}</span>
-        <IconDropdown width={16} height={16} fill="#5d5d5d" />
+        <IconDropdown width={16} height={16} />
       </button>
 
       {/* 임시 목록 모달 */}

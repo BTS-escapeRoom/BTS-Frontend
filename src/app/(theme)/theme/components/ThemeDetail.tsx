@@ -6,6 +6,7 @@ import { BottomSheetModal } from '@/components/modal'
 import type { ThemeDetail as ThemeDetailType } from '@/features/theme/api/getThemeDetail.types'
 import ThemeDetailInfo from './ThemeDetailInfo'
 import ThemeReservationInfo from './ThemeReservationInfo'
+import ReviewList from './ReviewList'
 
 type TabKey = 'detail' | 'reservation' | 'review'
 
@@ -56,7 +57,7 @@ export default function ThemeDetail({
           <>
             {activeTab === 'detail' && <ThemeDetailInfo theme={themeDetail} />}
             {activeTab === 'reservation' && <ThemeReservationInfo theme={themeDetail} />}
-            {activeTab === 'review' && null}
+            {activeTab === 'review' && <ReviewList themeId={themeDetail.id.toString()} />}
           </>
         )}
       </div>
