@@ -23,7 +23,7 @@ export default function LoginPrompt() {
 
       <SButton
         onClick={handleLoginClick}
-        className="bg-primary hover:bg-primary/90 w-[200px] text-white"
+        className="w-[200px] bg-transparent text-14 text-gray04 underline"
       >
         로그인하러 가기
       </SButton>
