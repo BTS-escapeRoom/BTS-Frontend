@@ -3,61 +3,12 @@
 import { useInfiniteReviews } from '@/features/theme/hooks/useReviewsQuery'
 import { useAuth } from '@/features/auth'
 import SButton from '@/components/button/SButton'
+import FloatingActionButton from '@/components/button/FloatingActionButton'
 import LoginPrompt from './LoginPrompt'
-import type { Review } from '@/features/theme/api/getReviews.types'
+import ReviewItem from './ReviewItem'
 
 type ReviewListProps = {
   themeId: string
-}
-
-function ReviewItem({ review }: { review: Review }) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  }
-
-  return (
-    <div className="mb-[16px] border-b border-gray03 pb-[16px] last:mb-0 last:border-b-0">
-      <div className="mb-[8px] flex items-center justify-between">
-        <div className="flex items-center gap-[8px]">
-          <span className="text-gray08 text-14 font-semibold">{review.nickname}</span>
-          {review.isMyReview && (
-            <span className="bg-primary rounded-sm px-[6px] py-[2px] text-12 text-white">
-              내 리뷰
-            </span>
-          )}
-        </div>
-        <span className="text-12 text-gray05">{formatDate(review.createdAt)}</span>
-      </div>
-
-      <div className="mb-[8px]">
-        <div className="flex items-center gap-[12px] text-12 text-gray06">
-          <span>인원: {review.people}명</span>
-          <span>소요시간: {review.time}분</span>
-          <span>난이도: {review.difficulty}/5</span>
-        </div>
-      </div>
-
-      <div className="mb-[8px]">
-        <div className="flex items-center gap-[12px] text-12 text-gray06">
-          <span>공포도: {review.scareScore}/5</span>
-          <span>활동성: {review.activityScore}/5</span>
-          <span>힌트: {review.hints}개</span>
-          <span className={review.isSuccess ? 'text-green-600' : 'text-red-500'}>
-            {review.isSuccess ? '성공' : '실패'}
-          </span>
-        </div>
-      </div>
-
-      <div className="text-gray08 text-14 leading-relaxed">{review.content}</div>
-
-      <div className="mt-[8px] text-12 text-gray05">방문일: {formatDate(review.visitDate)}</div>
-    </div>
-  )
 }
 
 export default function ReviewList({ themeId }: ReviewListProps) {
@@ -97,31 +48,44 @@ export default function ReviewList({ themeId }: ReviewListProps) {
 
   const reviews = data?.pages.flat() ?? []
 
-  if (reviews.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-[40px]">
-        <div className="text-14 text-gray05">아직 등록된 리뷰가 없습니다.</div>
-      </div>
-    )
+  const handleWriteReview = () => {
+    // TODO: 리뷰 작성 기능 구현
+    console.log('리뷰 작성 클릭')
   }
 
   return (
-    <div>
-      {reviews.map((review) => (
-        <ReviewItem key={review.id} review={review} />
-      ))}
-
-      {hasNextPage && (
-        <div className="mt-[24px]">
-          <SButton
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            className="text-gray08 bg-gray06 hover:bg-gray05 disabled:bg-gray04"
-          >
-            {isFetchingNextPage ? '로딩 중...' : '리뷰 더보기'}
-          </SButton>
+    <div className="relative min-h-[calc(100vh-112px-52px-16px-56px)]">
+      {reviews.length === 0 ? (
+        <div className="flex min-h-[calc(100vh-112px-52px-16px-56px)] flex-col items-center justify-center">
+          <div className="text-center text-14 text-gray05">
+            <div>아직 작성된 리뷰가 없어요.</div>
+            <div>첫번째 리뷰의 주인공이 되어보세요!</div>
+          </div>
         </div>
+      ) : (
+        <>
+          {reviews.map((review) => (
+            <ReviewItem key={review.id} review={review} />
+          ))}
+
+          {hasNextPage && (
+            <div className="mt-[24px]">
+              <SButton
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="text-gray08 bg-gray06 hover:bg-gray05 disabled:bg-gray04"
+              >
+                {isFetchingNextPage ? '로딩 중...' : '리뷰 더보기'}
+              </SButton>
+            </div>
+          )}
+        </>
       )}
+
+      {/* 리뷰 작성 버튼 - 항상 우측 하단에 고정 (네비게이션 높이 고려) */}
+      <div className="fixed bottom-[72px] right-[16px] z-20">
+        <FloatingActionButton text="리뷰 작성" onClick={handleWriteReview} />
+      </div>
     </div>
   )
 }
