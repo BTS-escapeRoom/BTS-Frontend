@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import './globals.css'
 import { ToastProvider } from '@/components/toast/ToastProvider'
 import BottomNavController from '@/components/nav/BottomNavController'
+import { GlobalModal } from '@/components/modal'
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -21,6 +22,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // toast가 모든 레이어들 중 최상단에 위치하도록
   return (
     <html lang="en" className={`${pretendard.className} `}>
       <body className="bg-gray02">
@@ -30,6 +32,7 @@ export default function RootLayout({
               <main className="flex w-full flex-1 flex-col">{children}</main>
               <BottomNavController />
             </div>
+            <GlobalModal />
           </ToastProvider>
         </div>
       </body>

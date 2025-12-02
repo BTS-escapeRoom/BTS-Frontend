@@ -15,6 +15,7 @@ export default function NicknameForm() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    // TODO: 이미 사용중인 닉네임입니다 warning
     mutate(
       { nickname },
       {

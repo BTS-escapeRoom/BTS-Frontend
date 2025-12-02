@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Theme } from '@/features/theme'
 import SChip from '@/components/chip/SChip'
 import { IconClock } from '@/components/icons'
-import GenreChip from './GenreChip'
+import GenreChip from '../GenreChip'
 import { useState } from 'react'
 
 type ThemeCardProps = {

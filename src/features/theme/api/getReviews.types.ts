@@ -1,13 +1,14 @@
 export interface Review {
   id: number
   content: string
-  people: number
-  time: number
+  people: number | null
+  remainingTime: number
+  elapsedTime: number
   difficulty: number
   scareScore: number
   activityScore: number
-  visitDate: string
-  hints: number
+  visitDate: string | null
+  hints: number | null
   isSuccess: boolean
   createdAt: string
   isMyReview: boolean

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { ThemeDetail as ThemeDetailType } from '@/features/theme/api/getThemeDetail.types'
-import GenreChip from './GenreChip'
+import GenreChip from '../GenreChip'
 import SChip from '@/components/chip/SChip'
 import { IconClock, IconLockFull, IconLockHalf } from '@/components/icons'
 

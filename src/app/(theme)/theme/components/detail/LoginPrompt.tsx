@@ -24,7 +24,7 @@ export default function LoginPrompt() {
         onClick={handleLoginClick}
         className="w-[200px] bg-transparent text-14 text-gray04 underline"
       >
-        로그인하러 가기
+        <span className="text-14 font-normal">로그인하러 가기</span>
       </SButton>
     </div>
   )

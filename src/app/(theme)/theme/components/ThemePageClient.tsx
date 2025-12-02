@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import ThemeList from './ThemeList'
-import ThemeDetail from './ThemeDetail'
+import ThemeList from './list/ThemeList'
+import ThemeDetail from './detail/ThemeDetail'
 import { useThemeDetail } from '@/features/theme'
 import type { ThemeQueryParams } from '@/features/theme/api/getThemes.types'
 

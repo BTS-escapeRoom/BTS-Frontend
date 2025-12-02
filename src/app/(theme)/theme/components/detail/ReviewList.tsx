@@ -20,14 +20,6 @@ export default function ReviewList({ themeId }: ReviewListProps) {
     return <LoginPrompt />
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-[40px]">
-        <div className="text-14 text-gray05">리뷰를 불러오는 중...</div>
-      </div>
-    )
-  }
-
   if (error) {
     return (
       <div className="flex items-center justify-center py-[40px]">
@@ -39,8 +31,7 @@ export default function ReviewList({ themeId }: ReviewListProps) {
   const reviews = data?.pages.flat() ?? []
 
   const handleWriteReview = () => {
-    // TODO: 리뷰 작성 기능 구현
-    console.log('리뷰 작성 클릭')
+    // 리뷰 작성 화면으로 이동
   }
 
   return (

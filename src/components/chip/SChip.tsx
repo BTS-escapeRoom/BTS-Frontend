@@ -2,7 +2,7 @@ interface SChipProps {
   text: string
   bgColor?: string
   textColor?: string
-  icon?: React.ReactNode
+  icon?: React.ReactNode | React.ReactElement | string
 }
 
 const BG: Record<string, string> = {
