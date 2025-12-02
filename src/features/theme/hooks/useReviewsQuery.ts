@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { getReviews } from '../api/getReviews'
 import type { ReviewsParams } from '../api/getReviews.types'
 
-export function useInfiniteReviews(themeId: string, enabled: boolean = true) {
+export function useInfiniteReviews(themeId: string) {
   return useInfiniteQuery({
     queryKey: ['reviews', themeId],
     queryFn: ({ pageParam = 0 }) => getReviews({ themeId, offset: pageParam }),
@@ -17,6 +17,6 @@ export function useInfiniteReviews(themeId: string, enabled: boolean = true) {
       // 다음 페이지는 현재까지 로드된 총 아이템 수
       return allPages.length * 10
     },
-    enabled: !!themeId && enabled,
+    enabled: !!themeId,
   })
 }

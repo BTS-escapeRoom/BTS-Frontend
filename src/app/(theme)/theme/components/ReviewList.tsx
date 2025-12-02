@@ -1,32 +1,22 @@
 'use client'
 
 import { useInfiniteReviews } from '@/features/theme/hooks/useReviewsQuery'
-import { useAuth } from '@/features/auth'
 import SButton from '@/components/button/SButton'
 import FloatingActionButton from '@/components/button/FloatingActionButton'
 import LoginPrompt from './LoginPrompt'
 import ReviewItem from './ReviewItem'
+import { ApiError } from '@/utils/api'
 
 type ReviewListProps = {
   themeId: string
 }
 
 export default function ReviewList({ themeId }: ReviewListProps) {
-  const { isAuthenticated, isLoading: authLoading } = useAuth()
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
-    useInfiniteReviews(themeId, isAuthenticated)
+    useInfiniteReviews(themeId)
 
-  // 인증 상태 로딩 중
-  if (authLoading) {
-    return (
-      <div className="flex items-center justify-center py-[40px]">
-        <div className="text-14 text-gray05">로딩 중...</div>
-      </div>
-    )
-  }
-
-  // 로그인하지 않은 경우
-  if (!isAuthenticated) {
+  // 401 에러(로그인 필요)인 경우 로그인 프롬프트 표시
+  if (error instanceof ApiError && error.status === 401) {
     return <LoginPrompt />
   }
 
