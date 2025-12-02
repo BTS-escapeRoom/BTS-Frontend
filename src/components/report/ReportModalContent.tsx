@@ -14,6 +14,7 @@ export default function ReportModalContent() {
 
     // 1. options3인데 reason 빈값이면 토스트로 경고
     if(selected === 'option3' && reason === '') {
+      // TODO: toast 안보이는 이슈 수정
       showToast('신고 사유를 작성해주세요.', 'warning')
       return
     }
