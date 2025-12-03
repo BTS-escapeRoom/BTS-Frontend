@@ -8,7 +8,6 @@ import ThemeDetailInfo from './ThemeDetailInfo'
 import ThemeReservationInfo from './ThemeReservationInfo'
 import ReviewList from './ReviewList'
 
-
 type TabKey = 'detail' | 'reservation' | 'review'
 
 type ThemeDetailProps = {
@@ -37,7 +36,7 @@ export default function ThemeDetail({
     onTabChange?.(key)
   }
   return (
-    <BottomSheetModal isOpen={isOpen} onClose={onClose}>
+    <BottomSheetModal isOpen={isOpen} onClose={onClose} className="h-[calc(100vh-112px)] bg-white">
       <div className="sticky top-0 z-10 rounded-t-xl bg-white">
         <ThemeDetailTabs initial={initialTab} onChange={handleTabChange} />
       </div>

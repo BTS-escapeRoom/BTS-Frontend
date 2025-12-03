@@ -8,6 +8,9 @@ interface BottomSheetModalProps {
   onClose: () => void
   title?: string
   children: React.ReactNode
+  hideCloseButton?: boolean
+  closeOnOverlayClick?: boolean
+  className?: string
 }
 
 export default function BottomSheetModal({
@@ -15,6 +18,9 @@ export default function BottomSheetModal({
   onClose,
   title,
   children,
+  hideCloseButton = false,
+  closeOnOverlayClick = false,
+  className = '',
 }: BottomSheetModalProps) {
   useEffect(() => {
     if (!isOpen) {
@@ -38,6 +44,12 @@ export default function BottomSheetModal({
 
   if (!isOpen) return null
 
+  const handleOverlayClick = () => {
+    if (closeOnOverlayClick) {
+      onClose()
+    }
+  }
+
   return (
     <div className="fixed inset-0 z-50 mx-auto flex w-full min-w-[320px] max-w-[600px] items-end">
       {/* Dimmed background */}
@@ -46,25 +58,29 @@ export default function BottomSheetModal({
         style={{
           animation: 'fadeIn 0.3s ease-out',
         }}
+        onClick={handleOverlayClick}
+        aria-hidden="true"
       />
 
       {/* Modal content */}
       <div
-        className="relative w-full rounded-t-xl bg-white transition-transform duration-300 ease-out"
+        className={`white relative w-full rounded-t-xl transition-transform duration-300 ease-out ${className}`}
         style={{
-          height: 'calc(100vh - 112px)',
-          marginTop: '112px',
+          maxHeight: 'calc(100vh - 112px)',
           animation: 'slideInFromBottom 0.3s ease-out',
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute -top-[36px] right-[16px] z-10"
-          aria-label="모달 닫기"
-        >
-          <IconModalClose width={24} height={24} fill="#fff" />
-        </button>
+        {!hideCloseButton && (
+          <button
+            onClick={onClose}
+            className="absolute -top-[36px] right-[16px] z-10"
+            aria-label="모달 닫기"
+          >
+            <IconModalClose width={24} height={24} fill="#fff" />
+          </button>
+        )}
 
         {/* Modal content area */}
         <div className="w-full overflow-y-auto" style={{ height: '100%' }}>

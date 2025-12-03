@@ -1,14 +1,19 @@
 'use client'
 
 import HButton from '@/components/button/HButton'
+import MoreMenuButton from '@/components/button/MoreMenuButton'
 import SChip from '@/components/chip/SChip'
 import { IconKebabVertical, IconLockClose, IconLockOpen } from '@/components/icons'
 import type { Review } from '@/features/theme/api/getReviews.types'
 import { useModalStore } from '@/store/modalStore'
 import ReportModalContent from '@/components/report/ReportModalContent'
+import ConfirmModalContent from '@/components/modal/ConfirmModalContent'
+import { deleteReview } from '@/features/theme/api/deleteReview'
+import { useToast } from '@/hooks/useToast'
 
 type ReviewItemProps = {
   review: Review
+  onDeleteSuccess?: () => void
 }
 
 type ReviewGuideInfoProps = {
@@ -21,6 +26,12 @@ type ReviewDetailInfoProps = {
   hint: number | null
   remainingTime: number
   elapsedTime: number
+}
+
+type MorePopupProps = {
+  isMyReview: boolean
+  reviewId: number
+  onDeleteSuccess?: () => void
 }
 
 function ReviewGuideInfo({ title, value }: ReviewGuideInfoProps) {
@@ -60,22 +71,36 @@ function ReviewDetailInfo({ people, hint, remainingTime, elapsedTime }: ReviewDe
       }, [])}
     </div>
   )
-} 
+}
 
-export default function ReviewItem({ review }: ReviewItemProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
-  }
+function MorePopup({ isMyReview, reviewId, onDeleteSuccess }: MorePopupProps) {
+  const { showToast } = useToast()
 
-  const handleClickEdit = () => {
-    
-  }
+  const handleClickEdit = () => {}
   const handleClickDelete = () => {
-    
+    useModalStore.setState({
+      isOpen: true,
+      props: {
+        title: '리뷰 삭제',
+      },
+      view: (
+        <ConfirmModalContent
+          title="리뷰 삭제"
+          message="정말 삭제하시겠습니까?"
+          onConfirm={async () => {
+            try {
+              await deleteReview(reviewId)
+              showToast('리뷰가 삭제되었습니다.', 'success')
+              onDeleteSuccess?.()
+            } catch (error) {
+              showToast('리뷰 삭제 중 오류가 발생했습니다.', 'error')
+            }
+          }}
+          confirmText="삭제"
+          cancelText="취소"
+        />
+      ),
+    })
   }
 
   const handleClickReport = () => {
@@ -84,43 +109,63 @@ export default function ReviewItem({ review }: ReviewItemProps) {
       props: {
         title: '신고',
       },
-      view: (
-        <ReportModalContent/>
-      )
+      view: <ReportModalContent reviewId={reviewId} />,
     })
+  }
+  return (
+    <>
+      {isMyReview ? (
+        <div className="flex flex-col gap-[8px] text-[14px]">
+          <MoreMenuButton
+            list={[
+              { text: '수정', onClick: handleClickEdit },
+              { text: '삭제', onClick: handleClickDelete, className: 'text-[#EF4156]' },
+            ]}
+          />
+          <MoreMenuButton
+            list={[{ text: '닫기', onClick: () => useModalStore.setState({ isOpen: false }) }]}
+          />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-[6px] text-[14px]">
+          <MoreMenuButton
+            list={[{ text: '신고', onClick: handleClickReport, className: 'text-[#EF4156]' }]}
+          />
+          <MoreMenuButton
+            list={[{ text: '닫기', onClick: () => useModalStore.setState({ isOpen: false }) }]}
+          />
+        </div>
+      )}
+    </>
+  )
+}
+
+export default function ReviewItem({ review, onDeleteSuccess }: ReviewItemProps) {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
 
   const handleClickMenu = () => {
-    if (review.isMyReview) {
-      useModalStore.setState({
-        isOpen: true,
-        props: {
-          closeOnOverlayClick: true,
-          hideCloseButton: true,
-        },
-        view: (
-        <div className="flex flex-col gap-[6px]">
-            <HButton onClick={handleClickEdit}>수정</HButton>
-            <HButton onClick={handleClickDelete}>삭제</HButton>
-            <HButton onClick={() => useModalStore.setState({ isOpen: false })}>닫기</HButton>
-          </div>
-        ),
-      })
-    } else {
-      useModalStore.setState({
-        isOpen: true,
-        props: {
-          closeOnOverlayClick: true,
-          hideCloseButton: true,
-        },
-        view: (
-        <div className="flex flex-col gap-[6px]">
-            <HButton onClick={handleClickReport}>신고</HButton>
-            <HButton onClick={() => useModalStore.setState({ isOpen: false })}>닫기</HButton>
-          </div>
-        ),
-      })
-    }
+    useModalStore.setState({
+      isOpen: true,
+      props: {
+        closeOnOverlayClick: true,
+        hideCloseButton: true,
+        className: 'mx-[8px] mb-[12px]',
+        variant: 'bottomSheet',
+      },
+      view: (
+        <MorePopup
+          isMyReview={review.isMyReview}
+          reviewId={review.id}
+          onDeleteSuccess={onDeleteSuccess}
+        />
+      ),
+    })
   }
 
   return (

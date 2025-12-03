@@ -59,7 +59,7 @@ export default function Modal({
 
       {/* Modal content */}
       <div
-        className={`relative w-full max-w-[320px] overflow-hidden rounded-xl bg-white py-[8px] px-[16px] shadow-xl transition-all duration-300 ${className}`}
+        className={`relative w-full max-w-[320px] overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300 ${className}`}
         role="dialog"
         aria-modal="true"
       >
@@ -73,12 +73,10 @@ export default function Modal({
             <IconModalClose width={24} height={24} fill="#000" />
           </button>
         )}
-        {
-          title && (
-            // 가운데정렬
-            <div className="text-center text-[16px] pt-[8px]">{title}</div>
-          )
-        }
+        {title && (
+          // 가운데정렬
+          <div className="pt-[16px] text-center text-[16px]">{title}</div>
+        )}
         {children}
       </div>
     </div>

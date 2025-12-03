@@ -6,6 +6,7 @@ import FloatingActionButton from '@/components/button/FloatingActionButton'
 import LoginPrompt from './LoginPrompt'
 import ReviewItem from './ReviewItem'
 import { ApiError } from '@/utils/api'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ReviewListProps = {
   themeId: string
@@ -14,6 +15,12 @@ type ReviewListProps = {
 export default function ReviewList({ themeId }: ReviewListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
     useInfiniteReviews(themeId)
+  const queryClient = useQueryClient()
+
+  const handleDeleteSuccess = () => {
+    // 리뷰 목록 쿼리 무효화하여 다시 불러오기
+    queryClient.invalidateQueries({ queryKey: ['reviews', themeId] })
+  }
 
   // 401 에러(로그인 필요)인 경우 로그인 프롬프트 표시
   if (error instanceof ApiError && error.status === 401) {
@@ -46,7 +53,7 @@ export default function ReviewList({ themeId }: ReviewListProps) {
       ) : (
         <>
           {reviews.map((review) => (
-            <ReviewItem key={review.id} review={review} />
+            <ReviewItem key={review.id} review={review} onDeleteSuccess={handleDeleteSuccess} />
           ))}
 
           {hasNextPage && (

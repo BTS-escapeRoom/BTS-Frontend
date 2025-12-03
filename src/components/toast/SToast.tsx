@@ -19,8 +19,8 @@ export default function Toast({ message, type, visible, onClose }: ToastProps) {
         'w-[calc(100%-32px)] max-w-[360px] border border-solid border-black',
         'z-50 flex flex-row items-center',
         {
-          'translate-y-0 opacity-100': visible,
-          'translate-y-4 opacity-0': !visible,
+          'pointer-events-auto translate-y-0 opacity-100': visible,
+          'pointer-events-none translate-y-4 opacity-0': !visible,
           'bg-[#00FB60]': type === 'success',
           'bg-[#F4C328]': type === 'warning',
           'bg-[#FF4D4D]': type === 'error',
