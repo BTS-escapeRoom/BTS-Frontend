@@ -1,7 +1,8 @@
 'use client'
 
-import { useToastContext } from '@/components/toast/ToastProvider'
+import { useToastStore } from '@/store/toastStore'
 
 export const useToast = () => {
-  return useToastContext()
+  const showToast = useToastStore((state) => state.showToast)
+  return { showToast }
 }
