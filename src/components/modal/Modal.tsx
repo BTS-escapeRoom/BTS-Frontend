@@ -49,7 +49,7 @@ export default function Modal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 mx-auto flex w-full min-w-[320px] max-w-[600px] items-center justify-center px-4">
+    <div className="fixed inset-0 mx-auto flex w-full min-w-[320px] max-w-[600px] items-center justify-center px-4">
       {/* Dimmed background */}
       <div
         className="absolute inset-0 bg-black/65 transition-opacity duration-300"

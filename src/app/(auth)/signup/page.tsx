@@ -29,8 +29,8 @@ export default function SignUpPage() {
     <>
       <QueryClientProvider client={queryClient}>
         <HeaderController />
-        <div className="z-1 relative flex flex-1 flex-col items-center justify-center px-[16px] text-gray07">
-          <div className="-z-1 absolute inset-0 mt-[72px] flex items-start justify-center">
+        <div className="relative z-0 flex flex-1 flex-col items-center justify-center px-[16px] text-gray07">
+          <div className="absolute inset-0 -z-10 mt-[72px] flex items-start justify-center">
             <div className="absolute top-0 h-[150px] w-[150px] rounded-full bg-[#6EFF7F] opacity-80 blur-[40px]" />
             <div className="absolute top-[25px] h-[100px] w-[100px] rounded-full bg-[#6EFF7F] opacity-50 blur-[20px]" />
             <div className="absolute top-[33px] h-[84px] w-[84px] rounded-full bg-[#6EFF7F] blur-[3px]" />

@@ -61,7 +61,7 @@ export default function ThemeCommonInfo({ theme }: ThemeCommonInfoProps) {
   return (
     <div className="flex items-start gap-[16px]">
       {/* Left: thumbnail with 3:4 ratio */}
-      <div className="relative aspect-[3/4] w-full max-w-full flex-1 self-start overflow-hidden bg-gray06">
+      <div className="relative aspect-[3/4] w-full max-w-[40%] max-w-full flex-1 self-start overflow-hidden bg-gray06">
         {showFallback ? (
           <div className="absolute inset-0 flex items-center justify-center px-2">
             <span className="text-semibold-12 line-clamp-3 break-words text-center text-white">

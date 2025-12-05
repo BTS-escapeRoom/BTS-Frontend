@@ -10,6 +10,7 @@ import ReportModalContent from '@/components/report/ReportModalContent'
 import ConfirmModalContent from '@/components/modal/ConfirmModalContent'
 import { deleteReview } from '@/features/theme/api/deleteReview'
 import { useToast } from '@/hooks/useToast'
+import { useRouter } from 'next/navigation'
 
 type ReviewItemProps = {
   review: Review
@@ -75,8 +76,13 @@ function ReviewDetailInfo({ people, hint, remainingTime, elapsedTime }: ReviewDe
 
 function MorePopup({ isMyReview, reviewId, onDeleteSuccess }: MorePopupProps) {
   const { showToast } = useToast()
+  const router = useRouter()
 
-  const handleClickEdit = () => {}
+  const handleClickEdit = () => {
+    // 수정 화면으로 이동
+    useModalStore.setState({ isOpen: false })
+    router.push(`/review/edit/${reviewId}`)
+  }
   const handleClickDelete = () => {
     useModalStore.setState({
       isOpen: true,

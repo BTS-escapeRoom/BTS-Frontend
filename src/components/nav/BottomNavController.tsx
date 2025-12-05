@@ -9,6 +9,8 @@ const HIDE_PATTERNS = [
   /^\/signup$/,
   /^\/intro$/,
   /^\/theme\/[^/]+\/edit/, // /theme/:id/play
+  /^\/review\/write/,
+  /^\/review\/edit\/[^/]+/,
 ]
 
 export default function BottomNavController() {

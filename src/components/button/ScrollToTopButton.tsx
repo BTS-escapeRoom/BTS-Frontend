@@ -34,12 +34,16 @@ export default function ScrollToTopButton() {
   }
 
   return (
-    <button
-      onClick={scrollToTop}
-      className="fixed bottom-[72px] right-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-[#f2f2f2] bg-white/80 shadow-sm transition-all duration-200 hover:bg-white/90"
-      aria-label="맨 위로 이동"
-    >
-      <IconChevronUp width={22} height={22} fill="#414141" />
-    </button>
+    <div className="fixed bottom-[72px] left-1/2 w-full max-w-[600px] -translate-x-1/2 px-[16px]">
+      <div className="flex justify-end">
+        <button
+          onClick={scrollToTop}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#f2f2f2] bg-white/80 shadow-sm transition-all duration-200 hover:bg-white/90"
+          aria-label="맨 위로 이동"
+        >
+          <IconChevronUp width={22} height={22} fill="#414141" />
+        </button>
+      </div>
+    </div>
   )
 }

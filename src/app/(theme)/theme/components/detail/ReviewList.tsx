@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useInfiniteReviews } from '@/features/theme/hooks/useReviewsQuery'
 import SButton from '@/components/button/SButton'
 import FloatingActionButton from '@/components/button/FloatingActionButton'
@@ -7,6 +8,8 @@ import LoginPrompt from './LoginPrompt'
 import ReviewItem from './ReviewItem'
 import { ApiError } from '@/utils/api'
 import { useQueryClient } from '@tanstack/react-query'
+import { getReviewAvailable } from '@/features/theme/api/getReviewAvailable'
+import { useToast } from '@/hooks/useToast'
 
 type ReviewListProps = {
   themeId: string
@@ -16,6 +19,8 @@ export default function ReviewList({ themeId }: ReviewListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
     useInfiniteReviews(themeId)
   const queryClient = useQueryClient()
+  const router = useRouter()
+  const { showToast } = useToast()
 
   const handleDeleteSuccess = () => {
     // 리뷰 목록 쿼리 무효화하여 다시 불러오기
@@ -37,8 +42,21 @@ export default function ReviewList({ themeId }: ReviewListProps) {
 
   const reviews = data?.pages.flat() ?? []
 
-  const handleWriteReview = () => {
-    // 리뷰 작성 화면으로 이동
+  const handleWriteReview = async () => {
+    try {
+      const result = await getReviewAvailable(themeId)
+
+      if (result.isAvailable) {
+        // 리뷰 작성 가능한 경우 작성 페이지로 이동
+        router.push(`/review/write?themeId=${themeId}`)
+      } else {
+        // 리뷰 작성 불가능한 경우 경고 토스트 표시
+        showToast('이미 최근에 리뷰를 작성하셨습니다.', 'warning')
+      }
+    } catch (error) {
+      console.error('리뷰 작성 가능 여부 조회 실패:', error)
+      showToast('리뷰 작성 가능 여부를 확인하는 중 오류가 발생했습니다.', 'error')
+    }
   }
 
   return (
@@ -71,8 +89,10 @@ export default function ReviewList({ themeId }: ReviewListProps) {
       )}
 
       {/* 리뷰 작성 버튼 - 항상 우측 하단에 고정 (네비게이션 높이 고려) */}
-      <div className="fixed bottom-[72px] right-[16px] z-20">
-        <FloatingActionButton text="리뷰 작성" onClick={handleWriteReview} />
+      <div className="fixed bottom-[72px] left-1/2 w-full max-w-[600px] -translate-x-1/2 px-[16px]">
+        <div className="flex justify-end">
+          <FloatingActionButton text="리뷰 작성" onClick={handleWriteReview} />
+        </div>
       </div>
     </div>
   )

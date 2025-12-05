@@ -5,6 +5,7 @@ import ThemeList from './list/ThemeList'
 import ThemeDetail from './detail/ThemeDetail'
 import { useThemeDetail } from '@/features/theme'
 import type { ThemeQueryParams } from '@/features/theme/api/getThemes.types'
+import ScrollToTopButton from '@/components/button/ScrollToTopButton'
 
 type ThemePageClientProps = {
   params: Omit<ThemeQueryParams, 'page'>
@@ -31,6 +32,7 @@ export default function ThemePageClient({ params }: ThemePageClientProps) {
   return (
     <>
       <ThemeList params={params} onItemClick={handleThemeClick} />
+      <ScrollToTopButton />
 
       {isModalOpen && selectedThemeId ? (
         <ThemeDetail

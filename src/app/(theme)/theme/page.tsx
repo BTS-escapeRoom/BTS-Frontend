@@ -2,7 +2,6 @@ import ThemePageClient from './components/ThemePageClient'
 import QueryProvider from './components/QueryProvider'
 import ThemeSearchBar from './components/list/ThemeSearchBar'
 import ThemeSortDropdown from './components/list/ThemeSortDropdown'
-import ScrollToTopButton from '@/components/button/ScrollToTopButton'
 import type { ThemeQueryParams } from '@/features/theme/api/getThemes.types'
 
 type PageProps = {
@@ -57,7 +56,6 @@ export default async function ThemePage({ searchParams }: PageProps) {
         <ThemeSortDropdown />
       </div>
       <ThemePageClient params={params} />
-      <ScrollToTopButton />
     </QueryProvider>
   )
 }
