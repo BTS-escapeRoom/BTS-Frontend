@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import ThemeCard from './ThemeCard'
-import type { Theme } from '../types/theme'
+import type { Theme } from '@/features/theme/types/model'
 
 const meta: Meta<typeof ThemeCard> = {
   title: 'Theme/ThemeCard',
