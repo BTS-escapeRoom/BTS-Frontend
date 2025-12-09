@@ -60,7 +60,7 @@ export default function ReviewList({ themeId }: ReviewListProps) {
   }
 
   return (
-    <div className="relative min-h-[calc(100vh-112px-52px-16px-56px)]">
+    <div className="relative min-h-[calc(100vh-112px-52px-16px-56px)] pb-[36px]">
       {reviews.length === 0 ? (
         <div className="flex min-h-[calc(100vh-112px-52px-16px-56px)] flex-col items-center justify-center">
           <div className="text-center text-14 text-gray05">

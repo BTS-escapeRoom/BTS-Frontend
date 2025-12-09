@@ -4,6 +4,8 @@ import { InputHTMLAttributes } from 'react'
 import HInput from './HInput'
 import { IconClear } from '../icons'
 
+type SInputSize = 'xs' | 'sm' | 'md' | 'lg'
+
 type SInputProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: boolean
   clearable?: boolean
@@ -11,6 +13,8 @@ type SInputProps = InputHTMLAttributes<HTMLInputElement> & {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   className?: string
+  inputSize?: SInputSize
+  inputClassName?: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   onClear?: () => void
 }
@@ -21,6 +25,8 @@ export default function SInput({
   className = '',
   clearable = true,
   disabled = false,
+  inputSize = 'md',
+  inputClassName = '',
   ...props
 }: SInputProps) {
   const baseStyle =
@@ -29,12 +35,19 @@ export default function SInput({
   const errorStyle = 'border-red-500 focus:ring-red-500'
   const normalStyle = 'bg-gray01'
   const outlineStyle = 'border border-gray03 '
-  const outlineFilledStyle = 'border border-gray05 text-gray07'
+
+  const sizeStyles: Record<SInputSize, string> = {
+    xs: 'h-[24px] text-[12px]',
+    sm: 'h-[32px] text-[14px]',
+    md: 'h-[40px] text-[14px]',
+    lg: 'h-[45px] text-[16px]',
+  }
 
   const finalClassName = [
     baseStyle,
     error ? errorStyle : outline ? outlineStyle : normalStyle,
     disabledStyle,
+    sizeStyles[inputSize as SInputSize],
   ]
     .filter(Boolean)
     .join(' ')
@@ -53,7 +66,7 @@ export default function SInput({
     <div className={`relative ${className}`}>
       <HInput
         {...inputProps}
-        className={`${finalClassName} ${isFilled && outline ? outlineFilledStyle : ''} ${clearable && isFilled ? 'pr-[40px]' : ''}`}
+        className={`${finalClassName} ${clearable && isFilled ? 'pr-[40px]' : ''} ${inputClassName || ''}`}
       />
       {clearable && props.value && (
         <button

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 type TabKey = 'detail' | 'reservation' | 'review'
 
@@ -11,6 +11,10 @@ type ThemeDetailTabsProps = {
 
 export default function ThemeDetailTabs({ initial = 'detail', onChange }: ThemeDetailTabsProps) {
   const [active, setActive] = useState<TabKey>(initial)
+
+  useEffect(() => {
+    setActive(initial)
+  }, [initial])
 
   const handleClick = (key: TabKey) => {
     setActive(key)

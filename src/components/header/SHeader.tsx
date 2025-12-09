@@ -21,7 +21,7 @@ export default function SHeader({
   const router = useRouter()
 
   return (
-    <header className="sticky top-0 flex h-[52px] min-h-[52px] w-full items-center justify-center bg-white text-gray06">
+    <header className="sticky top-0 z-10 flex h-[52px] min-h-[52px] w-full items-center justify-center bg-white text-gray06">
       {showBack && (
         <button
           onClick={onBack ?? (() => router.back())}

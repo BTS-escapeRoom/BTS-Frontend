@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ThemeDetailTabs from './ThemeDetailTabs'
 import { BottomSheetModal } from '@/components/modal'
 import type { ThemeDetail as ThemeDetailType } from '@/features/theme/api/getThemeDetail.types'
@@ -30,6 +30,10 @@ export default function ThemeDetail({
   themeDetail,
 }: ThemeDetailProps) {
   const [activeTab, setActiveTab] = useState<TabKey>(initialTab)
+
+  useEffect(() => {
+    setActiveTab(initialTab)
+  }, [initialTab])
 
   const handleTabChange = (key: TabKey) => {
     setActiveTab(key)

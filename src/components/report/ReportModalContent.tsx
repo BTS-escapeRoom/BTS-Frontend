@@ -1,5 +1,6 @@
 import SButton from '../button/SButton'
 import RadioOption from '../radio/RadioOption'
+import STextarea from '../input/STextarea'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/hooks/useToast'
 import { reportReview } from '@/features/theme/api/reportReview'
@@ -54,7 +55,7 @@ export default function ReportModalContent({ reviewId }: ReportModalContentProps
   return (
     <div className="flex flex-col gap-[16px] px-[24px] py-[24px]">
       <div className="text-[16px]">신고 사유를 선택해주세요.</div>
-      <div className="flex flex-col gap-[4px]">
+      <div className="flex flex-col gap-[8px]">
         <RadioOption
           label="부적절한 용어 사용"
           value="option1"
@@ -74,7 +75,7 @@ export default function ReportModalContent({ reviewId }: ReportModalContentProps
           color="#424242"
           labelSize="text-[14px]"
         />
-        <div>
+        <div className="flex flex-col gap-[8px]">
           <RadioOption
             label="기타"
             value="option3"
@@ -85,16 +86,18 @@ export default function ReportModalContent({ reviewId }: ReportModalContentProps
             labelSize="text-[14px]"
           />
           {/* textarea에 포커스 되면 option3이 선택되도록 */}
-          <textarea
+          <STextarea
             placeholder="신고 사유를 자세히 작성해주시면 서비스 개선에 도움이 됩니다."
-            className="h-[120px] w-full resize-none rounded-[2px] bg-[#fafafa] p-[10px] text-[12px] text-gray06 placeholder:text-[#bdbdbd] focus:border-none focus:outline-none"
+            className="h-[120px]"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             onFocus={() => setSelected('option3')}
           />
         </div>
       </div>
-      <SButton onClick={handleSubmit}>신고하기</SButton>
+      <SButton onClick={handleSubmit} size="md">
+        신고하기
+      </SButton>
     </div>
   )
 }

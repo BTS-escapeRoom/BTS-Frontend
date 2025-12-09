@@ -17,7 +17,7 @@ export default function RadioOption({
   checked,
   onChange,
   size = 18,
-  color = '#4F46E5', // 예시: 파란색
+  color = '#9747FF',
   disabled = false,
   labelSize = 'text-[12px]',
   borderColor = '#D4D4D4', // gray04
@@ -41,7 +41,7 @@ export default function RadioOption({
       />
 
       {/* 라벨 */}
-      <span className={labelSize}>{label}</span>
+      <span className={`${labelSize} text-gray07`}>{label}</span>
 
       {/* 실제 라디오 (접근성용, 화면에서는 숨김) */}
       <input

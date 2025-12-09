@@ -49,13 +49,17 @@ export default async function ThemePage({ searchParams }: PageProps) {
     keyword: resolvedSearchParams?.keyword as string,
   }
 
+  const themeId = resolvedSearchParams?.themeId as string | undefined
+  const themeTab =
+    (resolvedSearchParams?.themeTab as 'detail' | 'reservation' | 'review' | undefined) || 'detail'
+
   return (
     <QueryProvider>
       <ThemeSearchBar />
       <div className="px-4 pb-2 pt-2">
         <ThemeSortDropdown />
       </div>
-      <ThemePageClient params={params} />
+      <ThemePageClient params={params} initialThemeId={themeId} initialTab={themeTab} />
     </QueryProvider>
   )
 }

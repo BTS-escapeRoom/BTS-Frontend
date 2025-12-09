@@ -6,6 +6,8 @@ import SHeader from '@/components/header/SHeader'
 import ReviewForm, { type ReviewFormData } from '../../components/ReviewForm'
 import type { Review } from '@/features/theme/api/getReviews.types'
 import { getReviewDetail } from '@/features/theme/api/getReviewDetail'
+import { updateReview } from '@/features/theme/api/updateReview'
+import { useToast } from '@/hooks/useToast'
 
 export default function ReviewEditPage() {
   const router = useRouter()
@@ -13,6 +15,8 @@ export default function ReviewEditPage() {
   const reviewId = params?.id as string
   const [review, setReview] = useState<Review | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const { showToast } = useToast()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -33,11 +37,32 @@ export default function ReviewEditPage() {
   }, [reviewId])
 
   const handleSubmit = async (data: ReviewFormData) => {
-    // TODO: 리뷰 수정 API 호출
-    console.log('리뷰 수정 데이터:', data)
+    setIsSubmitting(true)
 
-    // 수정 완료 후 이전 페이지로 이동
-    router.back()
+    try {
+      // visitDate에 시간 추가 (YYYY-MM-DD -> YYYY-MM-DDTHH:mm:ss ISO 8601 형식)
+      const visitDateWithTime = data.visitDate ? `${data.visitDate}T00:00:00` : undefined
+
+      await updateReview(reviewId, {
+        content: data.content || undefined,
+        people: data.people || undefined,
+        remainingTime: data.remainingTime || undefined,
+        elapsedTime: data.elapsedTime || undefined,
+        difficulty: data.difficulty,
+        scareScore: data.scareScore,
+        activityScore: data.activityScore,
+        visitDate: visitDateWithTime,
+        hints: data.hints || undefined,
+        isSuccess: data.isSuccess!,
+      })
+
+      showToast('리뷰가 수정되었습니다.', 'success')
+      router.back()
+    } catch (error) {
+      showToast('리뷰 수정 중 오류가 발생했습니다.', 'error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isLoading) {
@@ -77,8 +102,10 @@ export default function ReviewEditPage() {
           visitDate: review.visitDate,
           hints: review.hints,
           isSuccess: review.isSuccess,
+          timeType: review.timeType,
         }}
         onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
       />
     </>
   )

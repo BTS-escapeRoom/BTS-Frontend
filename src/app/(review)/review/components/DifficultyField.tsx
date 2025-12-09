@@ -12,6 +12,10 @@ export default function DifficultyField({ difficulty, onDifficultyChange }: Diff
   const selectedCount = Math.round(difficulty * 2) // 선택된 아이콘 개수
 
   const handleIconClick = (index: number) => {
+    if (index === 0 && difficulty === 0.5) {
+      onDifficultyChange(0)
+      return
+    }
     const newDifficulty = (index + 1) * 0.5
     onDifficultyChange(newDifficulty)
   }

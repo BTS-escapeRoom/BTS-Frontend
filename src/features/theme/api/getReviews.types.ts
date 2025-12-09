@@ -4,6 +4,7 @@ export interface Review {
   people: number | null
   remainingTime: number
   elapsedTime: number
+  timeType: 'REMAINING' | 'ELAPSED' | 'NONE'
   difficulty: number
   scareScore: number
   activityScore: number
