@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SHeader from '@/components/header/SHeader'
 import ReviewForm, { type ReviewFormData } from '../components/ReviewForm'
 import { createReview } from '@/features/theme/api/createReview'
 import { useToast } from '@/hooks/useToast'
 
-export default function ReviewWritePage() {
+function ReviewWriteContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const themeId = searchParams.get('themeId')
@@ -54,5 +54,22 @@ export default function ReviewWritePage() {
       <SHeader title="리뷰 작성" showBack />
       <ReviewForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
     </>
+  )
+}
+
+export default function ReviewWritePage() {
+  return (
+    <Suspense
+      fallback={
+        <>
+          <SHeader title="리뷰 작성" showBack />
+          <div className="flex items-center justify-center py-[40px]">
+            <div className="text-14 text-gray05">로딩 중...</div>
+          </div>
+        </>
+      }
+    >
+      <ReviewWriteContent />
+    </Suspense>
   )
 }
