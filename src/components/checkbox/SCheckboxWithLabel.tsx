@@ -12,6 +12,7 @@ interface SCheckboxWithLabelProps {
   className?: string
   labelClassName?: string
   size?: number
+  color?: string
 }
 
 export default function SCheckboxWithLabel({
@@ -23,6 +24,7 @@ export default function SCheckboxWithLabel({
   className = '',
   labelClassName = '',
   size = 14,
+  color = '#9747FF',
 }: SCheckboxWithLabelProps) {
   const id = useId()
 
@@ -32,7 +34,14 @@ export default function SCheckboxWithLabel({
       className={`inline-flex cursor-pointer items-center gap-[8px] ${disabled ? 'cursor-not-allowed opacity-50' : ''} ${className}`}
     >
       {labelPosition === 'left' && <span className={`text-gray06 ${labelClassName}`}>{label}</span>}
-      <SCheckbox id={id} checked={checked} onChange={onChange} disabled={disabled} size={size} />
+      <SCheckbox
+        id={id}
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        size={size}
+        color={color}
+      />
       {labelPosition === 'right' && (
         <span className={`text-gray06 ${labelClassName}`}>{label}</span>
       )}

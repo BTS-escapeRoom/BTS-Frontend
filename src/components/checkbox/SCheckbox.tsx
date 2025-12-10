@@ -9,6 +9,7 @@ interface SCheckboxProps {
   className?: string
   size?: number
   id?: string
+  color?: string
 }
 
 export default function SCheckbox({
@@ -18,6 +19,7 @@ export default function SCheckbox({
   className = '',
   size = 14,
   id,
+  color = '#9747FF',
 }: SCheckboxProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!disabled) {
@@ -37,7 +39,7 @@ export default function SCheckbox({
       />
       <span className="inline-flex items-center justify-center">
         {checked ? (
-          <IconCheckboxFill width={size} height={size} />
+          <IconCheckboxFill width={size} height={size} fill={color} />
         ) : (
           <IconCheckboxEmpty width={size} height={size} />
         )}
