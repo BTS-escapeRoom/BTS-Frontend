@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SearchInput from '@/components/input/SearchInput'
 import SCheckboxWithLabel from '@/components/checkbox/SCheckboxWithLabel'
@@ -89,7 +89,9 @@ function RecruitBoardContent() {
 export default function RecruitBoardPage() {
   return (
     <QueryProvider>
-      <RecruitBoardContent />
+      <Suspense fallback={<div className="flex h-full w-full flex-col">로딩 중...</div>}>
+        <RecruitBoardContent />
+      </Suspense>
     </QueryProvider>
   )
 }
