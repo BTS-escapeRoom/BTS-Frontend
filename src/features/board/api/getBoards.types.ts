@@ -23,6 +23,7 @@ export type BoardApiItem = {
   commentCount: number
   createdAt: string
   updatedAt: string
+  isPopular: boolean
 }
 
 // API 응답 전체 스키마

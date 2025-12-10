@@ -5,15 +5,15 @@ import type { BoardApiItem, BoardApiResponse, BoardQueryParams } from './getBoar
 // 쿼리 파라미터 빌드
 function buildQuery(params: BoardQueryParams) {
   const qs = new URLSearchParams()
-  
+
   if (params.keyword) {
     qs.append('keyword', params.keyword)
   }
-  
+
   qs.append('type', params.type)
   qs.append('sortType', params.sortType)
   qs.append('page', String(params.page ?? 1))
-  
+
   return qs.toString()
 }
 
@@ -35,6 +35,7 @@ function mapToBoard(item: BoardApiItem): Board {
     commentCount: item.commentCount,
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
+    isPopular: item.isPopular,
   }
 }
 
@@ -45,7 +46,6 @@ export async function getBoardList(params: BoardQueryParams) {
   const boards = json.data.boards.map(mapToBoard)
   const nextPage = json.data.nextPage
   const totalPage = json.data.totalPage
-  
+
   return { boards, nextPage, totalPage }
 }
-
