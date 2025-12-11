@@ -13,5 +13,3 @@ export async function reportReview({ reviewId, description }: ReportReviewReques
     description,
   })
 }
-
-

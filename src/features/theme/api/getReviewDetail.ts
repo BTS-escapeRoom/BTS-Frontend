@@ -13,5 +13,3 @@ export async function getReviewDetail(reviewId: string | number) {
   const json = await apiGet<ReviewDetailApiResponse>(`/v1/reviews/${id}`)
   return json.data
 }
-
-

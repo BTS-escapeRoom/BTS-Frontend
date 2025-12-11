@@ -13,4 +13,3 @@ export async function getReviewAvailable(themeId: string) {
   const json = await apiGet<ReviewAvailableResponse>(`/v1/reviews/${themeId}/available`)
   return json.data
 }
-

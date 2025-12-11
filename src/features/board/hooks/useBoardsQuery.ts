@@ -14,4 +14,3 @@ export function useInfiniteBoards(params: Omit<BoardQueryParams, 'page'>) {
     getNextPageParam: (lastPage) => (lastPage.nextPage === -1 ? undefined : lastPage.nextPage),
   })
 }
-

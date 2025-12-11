@@ -22,4 +22,3 @@ export async function updateReview(reviewId: string | number, data: UpdateReview
   const response = await apiPut<{ data: UpdateReviewResponse }>(`/v1/reviews/${reviewId}`, data)
   return response.data
 }
-

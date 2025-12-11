@@ -1,5 +1,6 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from 'eslint-plugin-storybook'
+import prettier from 'eslint-plugin-prettier'
 
 import { FlatCompat } from '@eslint/eslintrc'
 import { fileURLToPath } from 'url'
@@ -15,7 +16,7 @@ const config = [
   ...compat.extends('next', 'next/core-web-vitals', 'prettier'),
   {
     plugins: {
-      prettier: require('eslint-plugin-prettier'),
+      prettier,
     },
     rules: {
       'prettier/prettier': 'error',

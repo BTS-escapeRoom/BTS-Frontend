@@ -184,12 +184,7 @@ export const InteractiveDateTime: Story = {
 
     return (
       <div className="flex flex-col gap-4">
-        <SDatePicker
-          value={date}
-          onChange={setDate}
-          includeTime={true}
-          separator="."
-        />
+        <SDatePicker value={date} onChange={setDate} includeTime={true} separator="." />
         <p className="text-14 text-gray-600">
           선택된 날짜/시간:{' '}
           {date
@@ -231,56 +226,28 @@ export const SeparatorComparison: Story = {
 // 오전/오후 시간 예시
 export const TimeExamples: Story = {
   render: () => {
-    const [date1, setDate1] = useState<Date | null>(
-      new Date(2024, 0, 15, 9, 30)
-    )
-    const [date2, setDate2] = useState<Date | null>(
-      new Date(2024, 0, 15, 14, 45)
-    )
-    const [date3, setDate3] = useState<Date | null>(
-      new Date(2024, 0, 15, 0, 0)
-    )
-    const [date4, setDate4] = useState<Date | null>(
-      new Date(2024, 0, 15, 12, 0)
-    )
+    const [date1, setDate1] = useState<Date | null>(new Date(2024, 0, 15, 9, 30))
+    const [date2, setDate2] = useState<Date | null>(new Date(2024, 0, 15, 14, 45))
+    const [date3, setDate3] = useState<Date | null>(new Date(2024, 0, 15, 0, 0))
+    const [date4, setDate4] = useState<Date | null>(new Date(2024, 0, 15, 12, 0))
 
     return (
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <span className="text-12 text-gray-600">오전 9시 30분</span>
-          <SDatePicker
-            value={date1}
-            onChange={setDate1}
-            includeTime={true}
-            separator="."
-          />
+          <SDatePicker value={date1} onChange={setDate1} includeTime={true} separator="." />
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-12 text-gray-600">오후 2시 45분</span>
-          <SDatePicker
-            value={date2}
-            onChange={setDate2}
-            includeTime={true}
-            separator="."
-          />
+          <SDatePicker value={date2} onChange={setDate2} includeTime={true} separator="." />
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-12 text-gray-600">오전 12시 (자정)</span>
-          <SDatePicker
-            value={date3}
-            onChange={setDate3}
-            includeTime={true}
-            separator="."
-          />
+          <SDatePicker value={date3} onChange={setDate3} includeTime={true} separator="." />
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-12 text-gray-600">오후 12시 (정오)</span>
-          <SDatePicker
-            value={date4}
-            onChange={setDate4}
-            includeTime={true}
-            separator="."
-          />
+          <SDatePicker value={date4} onChange={setDate4} includeTime={true} separator="." />
         </div>
       </div>
     )
@@ -306,15 +273,9 @@ export const StatesComparison: Story = {
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-12 text-gray-600">비활성화</span>
-          <SDatePicker
-            value={date3}
-            onChange={setDate3}
-            separator="."
-            disabled={true}
-          />
+          <SDatePicker value={date3} onChange={setDate3} separator="." disabled={true} />
         </div>
       </div>
     )
   },
 }
-
