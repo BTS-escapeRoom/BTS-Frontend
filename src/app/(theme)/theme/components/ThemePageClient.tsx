@@ -45,7 +45,7 @@ export default function ThemePageClient({
     }
   }, [searchParams])
 
-  const updateUrlParams = (themeId: string | null, tab: TabKey) => {
+  const updateUrlParams = (themeId: string | null, tab: TabKey, replace = false) => {
     const newSearchParams = new URLSearchParams(searchParams.toString())
 
     if (themeId) {
@@ -56,7 +56,12 @@ export default function ThemePageClient({
       newSearchParams.delete('themeTab')
     }
 
-    router.push(`?${newSearchParams.toString()}`, { scroll: false })
+    const url = `?${newSearchParams.toString()}`
+    if (replace) {
+      router.replace(url, { scroll: false })
+    } else {
+      router.push(url, { scroll: false })
+    }
   }
 
   const handleThemeClick = (themeId: string) => {
@@ -64,12 +69,12 @@ export default function ThemePageClient({
   }
 
   const handleCloseModal = () => {
-    updateUrlParams(null, 'detail')
+    updateUrlParams(null, 'detail', true) // replace로 히스토리에 남기지 않음
   }
 
   const handleTabChange = (tab: TabKey) => {
     if (selectedThemeId) {
-      updateUrlParams(selectedThemeId, tab)
+      updateUrlParams(selectedThemeId, tab, true) // tab 변경 시 replace로 처리
     }
   }
 

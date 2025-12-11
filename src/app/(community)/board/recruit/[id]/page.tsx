@@ -50,7 +50,7 @@ function RecruitBoardDetailContent({ params }: RecruitBoardDetailPageProps) {
     }
   }, [searchParams])
 
-  const updateUrlParams = (themeId: string | null, tab: TabKey) => {
+  const updateUrlParams = (themeId: string | null, tab: TabKey, replace = false) => {
     const newSearchParams = new URLSearchParams(searchParams.toString())
 
     if (themeId) {
@@ -61,11 +61,16 @@ function RecruitBoardDetailContent({ params }: RecruitBoardDetailPageProps) {
       newSearchParams.delete('themeTab')
     }
 
-    router.push(`/board/recruit/${id}?${newSearchParams.toString()}`, { scroll: false })
+    const url = `/board/recruit/${id}?${newSearchParams.toString()}`
+    if (replace) {
+      router.replace(url, { scroll: false })
+    } else {
+      router.push(url, { scroll: false })
+    }
   }
 
   const handleCloseThemeModal = () => {
-    updateUrlParams(null, 'detail')
+    updateUrlParams(null, 'detail', true) // replace로 히스토리에 남기지 않음
   }
 
   const handleThemeTabChange = (tab: TabKey) => {
