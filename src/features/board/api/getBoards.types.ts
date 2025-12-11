@@ -4,6 +4,7 @@ export type BoardQueryParams = {
   type: 'recruit' | 'normal'
   sortType: 'popular' | 'viewed' | 'latest' | 'old'
   page?: number // 기본값: 1
+  isRecruiting?: boolean
 }
 
 // API 응답 원본 아이템
@@ -16,6 +17,7 @@ export type BoardApiItem = {
   themeName: string
   storeName: string
   escapeDate: string
+  recruitDeadline: string
   recruitPeople: number
   contactUrl: string
   contactMethod: string

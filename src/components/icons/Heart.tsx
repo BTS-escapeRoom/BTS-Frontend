@@ -4,6 +4,7 @@ export default function IconHeart({
   width = 14,
   height = 14,
   fill = '#BDBDBD',
+  stroke = '#BDBDBD',
   ...props
 }: SVGProps<SVGSVGElement>) {
   return (
@@ -21,7 +22,7 @@ export default function IconHeart({
       />
       <path
         d="M7 4.66602C7 4.66602 7 4.66602 6.55667 4.08268C6.04333 3.40602 5.285 2.91602 4.375 2.91602C2.9225 2.91602 1.75 4.08852 1.75 5.54102C1.75 6.08352 1.91333 6.58518 2.19333 6.99935C2.66583 7.70518 7 12.2493 7 12.2493M7 4.66602C7 4.66602 7 4.66602 7.44333 4.08268C7.95667 3.40602 8.715 2.91602 9.625 2.91602C11.0775 2.91602 12.25 4.08852 12.25 5.54102C12.25 6.08352 12.0867 6.58518 11.8067 6.99935C11.3342 7.70518 7 12.2493 7 12.2493"
-        stroke={fill}
+        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

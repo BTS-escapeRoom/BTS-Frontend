@@ -30,7 +30,7 @@ function RecruitBoardContent() {
   // URL 파라미터에서 필터 값 가져오기
   const keyword = searchParams.get('keyword') || undefined
   const sort = searchParams.get('sort') || 'latest'
-  const onlyRecruiting = searchParams.get('onlyRecruiting') === 'true'
+  const isRecruiting = searchParams.get('isRecruiting') === 'true'
 
   // API 호출 파라미터 구성
   const boardParams = useMemo<Omit<BoardQueryParams, 'page'>>(() => {
@@ -38,23 +38,23 @@ function RecruitBoardContent() {
       keyword,
       type: 'recruit',
       sortType: (sort as BoardQueryParams['sortType']) || 'latest',
+      ...(isRecruiting && { isRecruiting: true }),
     }
-  }, [keyword, sort])
+  }, [keyword, sort, isRecruiting])
 
-  const handleOnlyRecruitingChange = (checked: boolean) => {
+  const handleIsRecruitingChange = (checked: boolean) => {
     const params = new URLSearchParams(searchParams.toString())
     if (checked) {
-      params.set('onlyRecruiting', 'true')
+      params.set('isRecruiting', 'true')
     } else {
-      params.delete('onlyRecruiting')
+      params.delete('isRecruiting')
     }
     params.delete('page') // 페이지를 1로 리셋
     router.push(`/board/recruit?${params.toString()}`)
   }
 
   const handleBoardClick = (boardId: number) => {
-    // TODO: 게시글 상세 페이지로 이동
-    console.log('게시글 클릭:', boardId)
+    router.push(`/board/recruit/${boardId}`)
   }
 
   return (
@@ -73,8 +73,8 @@ function RecruitBoardContent() {
         <div className="flex items-center justify-between px-4 py-3">
           <SCheckboxWithLabel
             label="모집중인 글만 보기"
-            checked={onlyRecruiting}
-            onChange={handleOnlyRecruitingChange}
+            checked={isRecruiting}
+            onChange={handleIsRecruitingChange}
             labelClassName="text-14"
             color="#424242"
           />

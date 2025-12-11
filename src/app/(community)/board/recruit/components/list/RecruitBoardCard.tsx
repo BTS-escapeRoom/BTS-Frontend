@@ -22,6 +22,7 @@ export default function RecruitBoardCard({
     themeName,
     storeName,
     escapeDate,
+    recruitDeadline,
     recruitPeople,
     hit,
     likeCount,
@@ -87,7 +88,7 @@ export default function RecruitBoardCard({
   // 마감일까지 남은 시간 계산
   const getDeadlineText = () => {
     try {
-      const deadline = new Date(escapeDate)
+      const deadline = new Date(recruitDeadline)
       const now = new Date()
       const diffMs = deadline.getTime() - now.getTime()
 

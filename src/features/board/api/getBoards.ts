@@ -14,6 +14,10 @@ function buildQuery(params: BoardQueryParams) {
   qs.append('sortType', params.sortType)
   qs.append('page', String(params.page ?? 1))
 
+  if (params.isRecruiting === true) {
+    qs.append('isRecruiting', 'true')
+  }
+
   return qs.toString()
 }
 
@@ -28,6 +32,7 @@ function mapToBoard(item: BoardApiItem): Board {
     themeName: item.themeName,
     storeName: item.storeName,
     escapeDate: item.escapeDate,
+    recruitDeadline: item.recruitDeadline,
     recruitPeople: item.recruitPeople,
     contactUrl: item.contactUrl,
     contactMethod: item.contactMethod,
