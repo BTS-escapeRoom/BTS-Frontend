@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 import SChip from './SChip'
 
 // 샘플 아이콘 (외부 라이브러리 없이 사용 가능)

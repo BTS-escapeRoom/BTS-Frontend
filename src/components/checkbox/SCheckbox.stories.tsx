@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 import { useState } from 'react'
 import SCheckbox from './SCheckbox'
 
@@ -107,11 +107,8 @@ export const Interactive: Story = {
     return (
       <div className="flex flex-col gap-4">
         <SCheckbox checked={checked} onChange={setChecked} />
-        <p className="text-14 text-gray-600">
-          현재 상태: {checked ? '체크됨' : '체크 안됨'}
-        </p>
+        <p className="text-14 text-gray-600">현재 상태: {checked ? '체크됨' : '체크 안됨'}</p>
       </div>
     )
   },
 }
-

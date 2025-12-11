@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import SInput from '@/components/input/SInput'
 import RadioOption from '@/components/radio/RadioOption'
 
@@ -24,7 +24,7 @@ export default function PlaytimeField({
   onTimeTypeChange,
 }: PlaytimeFieldProps) {
   // 현재 선택된 타입에 따라 표시할 시간 값
-  const getDisplayTime = () => {
+  const getDisplayTime = useCallback(() => {
     if (timeType === 'REMAINING' && remainingTime > 0) {
       return remainingTime
     }
@@ -32,7 +32,7 @@ export default function PlaytimeField({
       return elapsedTime
     }
     return 0
-  }
+  }, [timeType, remainingTime, elapsedTime])
 
   const displayTime = getDisplayTime()
   const [min, setMin] = useState<string>(
@@ -50,7 +50,7 @@ export default function PlaytimeField({
       setMin('')
       setSec('')
     }
-  }, [elapsedTime, remainingTime, timeType])
+  }, [elapsedTime, remainingTime, timeType, getDisplayTime])
 
   const handleMinChange = (value: string) => {
     const numValue = value.replace(/[^0-9]/g, '')
