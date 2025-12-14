@@ -4,20 +4,15 @@ import { useEffect, useRef } from 'react'
 import ThemeCard from './ThemeCard'
 import { useInfiniteThemes } from '@/features/theme/hooks/useThemeQuery'
 import type { ThemeQueryParams } from '@/features/theme/api/getThemes.types'
+import EmptySearchResult from '@/components/empty/EmptySearchResult'
 
 type ThemeListProps = {
   params: Omit<ThemeQueryParams, 'page'>
   onItemClick?: (id: string) => void
-  emptyText?: string
   className?: string
 }
 
-export default function ThemeList({
-  params,
-  onItemClick,
-  emptyText = '검색 결과가 없습니다.',
-  className = '',
-}: ThemeListProps) {
+export default function ThemeList({ params, onItemClick, className = '' }: ThemeListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
     useInfiniteThemes(params)
 
@@ -67,7 +62,12 @@ export default function ThemeList({
   }
 
   if (themes.length === 0) {
-    return <div className="px-8 pb-8 pt-14 text-center text-14 text-gray05">{emptyText}</div>
+    // 검색어가 있을 때는 EmptySearchResult 컴포넌트 표시
+    const hasKeyword = params.keyword && params.keyword.trim().length > 0
+    console.log(params.keyword)
+    return (
+      <EmptySearchResult keyword={hasKeyword ? params.keyword : undefined} className={className} />
+    )
   }
 
   return (

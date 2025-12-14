@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import RecruitBoardCard from './RecruitBoardCard'
 import { useInfiniteBoards } from '@/features/board'
 import type { BoardQueryParams } from '@/features/board/api/getBoards.types'
+import EmptySearchResult from '@/components/empty/EmptySearchResult'
 
 type RecruitBoardListProps = {
   params: Omit<BoardQueryParams, 'page'>
@@ -67,8 +68,10 @@ export default function RecruitBoardList({
   }
 
   if (boards.length === 0) {
+    // 검색어가 있을 때는 EmptySearchResult 컴포넌트 표시
+    const hasKeyword = params.keyword && params.keyword.trim().length > 0
     return (
-      <div className={`px-8 py-14 text-center text-14 text-gray05 ${className}`}>{emptyText}</div>
+      <EmptySearchResult keyword={hasKeyword ? params.keyword : undefined} className={className} />
     )
   }
 

@@ -10,7 +10,7 @@ export interface LogoutResponse {
 
 // 쿠키 제거 헬퍼 함수
 function removeRefreshTokenCookie() {
-  document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;'
+  document.cookie = 'refresh-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;'
 }
 
 // 토큰 갱신 (헤더에서 토큰 받기)
