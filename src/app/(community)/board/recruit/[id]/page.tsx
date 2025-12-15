@@ -75,7 +75,8 @@ function RecruitBoardDetailContent({ params }: RecruitBoardDetailPageProps) {
 
   const handleThemeTabChange = (tab: TabKey) => {
     if (selectedThemeId) {
-      updateUrlParams(selectedThemeId, tab)
+      // 탭 이동 시에는 히스토리에 남기지 않도록 replace 사용
+      updateUrlParams(selectedThemeId, tab, true)
     }
   }
 

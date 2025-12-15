@@ -33,10 +33,10 @@ export default function ConfirmModalContent({
     <div className="flex flex-col gap-[16px] px-[24px] py-[16px]">
       <div className="text-center text-[14px] text-gray06">{message}</div>
       <div className="flex gap-[8px]">
-        <SButton onClick={handleCancel} className="bg-gray04 text-gray07" size="sm">
+        <SButton onClick={handleCancel} className="bg-gray04 text-gray07" size="md">
           {cancelText}
         </SButton>
-        <SButton onClick={handleConfirm} className="bg-gray07 text-white" size="sm">
+        <SButton onClick={handleConfirm} className="bg-gray07 text-white" size="md">
           {confirmText}
         </SButton>
       </div>

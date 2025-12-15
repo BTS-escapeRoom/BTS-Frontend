@@ -9,9 +9,9 @@ function mapToBoardDetail(item: BoardDetailApiItem): BoardDetail {
     type: item.type,
     title: item.title,
     description: item.description,
+    memberId: item.memberId,
     memberName: item.memberName,
-    themeName: item.themeName,
-    storeName: item.storeName,
+    theme: item.theme,
     recruitDeadline: item.recruitDeadline,
     escapeDate: item.escapeDate,
     recruitPeople: item.recruitPeople,
@@ -24,6 +24,7 @@ function mapToBoardDetail(item: BoardDetailApiItem): BoardDetail {
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
     isPopular: item.isPopular,
+    isLike: item.isLike,
   }
 }
 

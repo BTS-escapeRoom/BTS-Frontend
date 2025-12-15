@@ -66,13 +66,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   fetchMemberInfo: async () => {
-    const { accessToken, isFetchingMemberInfo } = get()
-
-    // accessToken이 없으면 회원 정보를 가져올 수 없음
-    if (!accessToken) {
-      set({ memberInfo: null })
-      return
-    }
+    const { isFetchingMemberInfo } = get()
 
     // 이미 가져오는 중이면 중복 호출 방지
     if (isFetchingMemberInfo) {
@@ -82,6 +76,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ isFetchingMemberInfo: true })
 
     try {
+      // 항상 /v1/members/me 호출하여 최신 회원 정보 조회
       const memberInfo = await getMemberInfo()
       set({ memberInfo, isFetchingMemberInfo: false })
     } catch (error) {
@@ -142,46 +137,30 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   checkAuthStatus: async () => {
-    const { accessToken, isInitialized } = get()
+    const { isInitialized } = get()
 
-    // 이미 초기화가 완료되었으면 스킵
+    // 이미 초기화가 완료되었으면 현재 회원 정보 존재 여부로 로그인 상태 반환
     if (isInitialized) {
-      return !!accessToken
+      return !!get().memberInfo
     }
 
     // 초기화 시작
     set({ isLoading: true })
 
     try {
-      // accessToken이 있으면 로그인 상태
-      if (accessToken) {
-        // 회원 정보가 없으면 가져오기
-        const { memberInfo } = get()
-        if (!memberInfo) {
-          await get().fetchMemberInfo()
-        }
-        set({ isInitialized: true, isLoading: false })
-        return true
-      }
+      // 페이지 진입(새로고침) 시마다 항상 /v1/members/me 호출
+      await get().fetchMemberInfo()
 
-      // refresh token이 없으면 로그아웃 처리
-      if (!hasRefreshToken()) {
-        await get().logout()
-        set({ isInitialized: true, isLoading: false })
-        return false
-      }
-
-      // accessToken이 없고 refresh token이 있으면 갱신 시도
-      const refreshSuccess = await get().refreshToken()
-      if (refreshSuccess) {
-        // 토큰 갱신 성공 후 회원 정보 가져오기
-        await get().fetchMemberInfo()
-      }
       set({ isInitialized: true, isLoading: false })
-      return refreshSuccess
+      return !!get().memberInfo
     } catch (error) {
       console.error('인증 상태 확인 중 오류:', error)
-      set({ isInitialized: true, isLoading: false })
+      set({
+        accessToken: null,
+        memberInfo: null,
+        isInitialized: true,
+        isLoading: false,
+      })
       return false
     }
   },

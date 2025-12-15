@@ -14,7 +14,13 @@ import {
 } from '@/components/icons'
 import Image from 'next/image'
 import SChip from '@/components/chip/SChip'
-import { useThemeDetail } from '@/features/theme/hooks/useThemeQuery'
+import { apiPost, type ApiResponse } from '@/utils/api'
+import { useToast } from '@/hooks/useToast'
+import HButton from '@/components/button/HButton'
+import MoreMenuButton from '@/components/button/MoreMenuButton'
+import { useModalStore } from '@/store/modalStore'
+import BoardReportModalContent from '@/components/report/BoardReportModalContent'
+import { useAuthStore } from '@/features/auth/store/authStore'
 import type { BoardDetail } from '@/features/board/types/model'
 
 // 날짜 포맷팅 (YYYY.MM.DD hh:mm 형식)
@@ -129,23 +135,89 @@ type RecruitBoardPostProps = {
   board: BoardDetail
 }
 
+type MorePopupProps = {
+  isMyBoard: boolean
+  boardId: number
+}
+
+function MorePopup({ isMyBoard, boardId }: MorePopupProps) {
+  const { showToast } = useToast()
+
+  const handleClickCloseSheet = () => {
+    useModalStore.setState({ isOpen: false })
+  }
+
+  const handleClickExpire = () => {
+    // TODO: 모집글 마감 API 연동
+    showToast('모집글 마감 기능은 준비 중입니다.', 'info')
+    handleClickCloseSheet()
+  }
+
+  const handleClickEdit = () => {
+    // TODO: 모집글 수정 화면으로 이동
+    showToast('모집글 수정 기능은 준비 중입니다.', 'info')
+    handleClickCloseSheet()
+  }
+
+  const handleClickDelete = () => {
+    // TODO: 모집글 삭제 API 연동
+    showToast('모집글 삭제 기능은 준비 중입니다.', 'info')
+    handleClickCloseSheet()
+  }
+
+  const handleClickReport = () => {
+    useModalStore.setState({
+      isOpen: true,
+      props: {
+        title: '신고',
+      },
+      view: <BoardReportModalContent boardId={boardId} />,
+    })
+  }
+
+  if (isMyBoard) {
+    return (
+      <div className="flex flex-col gap-[8px] text-[14px]">
+        <MoreMenuButton
+          list={[
+            { text: '마감', onClick: handleClickExpire },
+            { text: '수정', onClick: handleClickEdit },
+            { text: '삭제', onClick: handleClickDelete, className: 'text-[#EF4156]' },
+          ]}
+        />
+        <MoreMenuButton list={[{ text: '닫기', onClick: handleClickCloseSheet }]} />
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-[6px] text-[14px]">
+      <MoreMenuButton
+        list={[{ text: '신고', onClick: handleClickReport, className: 'text-[#EF4156]' }]}
+      />
+      <MoreMenuButton list={[{ text: '닫기', onClick: handleClickCloseSheet }]} />
+    </div>
+  )
+}
+
 export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { showToast } = useToast()
+  const currentMemberId = useAuthStore((state) => state.memberInfo?.id)
+  const isMyBoard = currentMemberId != null && board.memberId === currentMemberId
 
-  // TODO: API 응답에 profileImg가 추가되면 사용
   const profileImg = (board as BoardDetail & { profileImg?: string }).profileImg
 
   const deadlineInfo = getDeadlineInfo(board.recruitDeadline)
   const escapeDateFormatted = formatEscapeDate(board.escapeDate)
 
-  // TODO: 실제 themeId가 API에 추가되면 board.themeId 사용
-  // 일단은 UI 확인을 위해 themeId 279로 고정
-  const themeId = '279'
-  const { data: themeDetail } = useThemeDetail(themeId)
+  const themeDetail = board.theme
+  const themeId = themeDetail?.id ? themeDetail.id.toString() : null
 
-  // TODO: 관심글 여부 조회 API 연결 후 실제 데이터 사용
-  const [isLiked, setIsLiked] = useState(false)
+  // 관심글 여부 및 카운트 상태 (초기값: API 응답 기준)
+  const [isLiked, setIsLiked] = useState<boolean>(board.isLike)
+  const [likeCount, setLikeCount] = useState<number>(board.likeCount)
 
   // 테마 정보 클릭 핸들러
   const handleThemeClick = () => {
@@ -157,9 +229,22 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
   }
 
   // 관심 버튼 클릭 핸들러
-  const handleLikeClick = () => {
-    // TODO: 관심글 등록/해제 API 호출
-    setIsLiked((prev) => !prev)
+  const handleLikeClick = async () => {
+    const prevLiked = isLiked
+    const nextLiked = !prevLiked
+
+    // 낙관적 업데이트
+    setIsLiked(nextLiked)
+    setLikeCount((prev) => prev + (nextLiked ? 1 : -1))
+
+    try {
+      await apiPost<ApiResponse<string>>(`/v1/boards/${board.id}/like`)
+    } catch (error) {
+      // 실패 시 상태 롤백
+      setIsLiked(prevLiked)
+      setLikeCount((prev) => prev + (prevLiked ? 1 : -1))
+      showToast('관심글 상태를 변경하지 못했습니다. 잠시 후 다시 시도해 주세요.', 'error')
+    }
   }
 
   // 연락 방법 표시
@@ -236,9 +321,23 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
         </div>
 
         {/* 우측: 더보기 버튼 */}
-        <button className="flex h-[20px] w-[20px] shrink-0 items-center justify-center">
+        <HButton
+          className="flex h-[20px] w-[20px] shrink-0 items-center justify-center"
+          onClick={() => {
+            useModalStore.setState({
+              isOpen: true,
+              props: {
+                closeOnOverlayClick: true,
+                hideCloseButton: true,
+                className: 'mx-[8px] mb-[12px]',
+                variant: 'bottomSheet',
+              },
+              view: <MorePopup isMyBoard={isMyBoard} boardId={board.id} />,
+            })
+          }}
+        >
           <IconKebabVertical fill="#757575" width={20} height={20} />
-        </button>
+        </HButton>
       </div>
 
       {/* 모집정보 영역 */}
@@ -341,9 +440,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
             fill={isLiked ? '#19FFEC' : '#BDBDBD'}
             stroke={isLiked ? '#757575' : '#BDBDBD'}
           />
-          <span className={`text-14 ${isLiked ? 'text-gray05' : 'text-gray05'}`}>
-            관심 {board.likeCount}
-          </span>
+          <span className="text-14 text-gray05">관심 {likeCount}</span>
         </button>
 
         {/* 우측: 댓글 수 */}

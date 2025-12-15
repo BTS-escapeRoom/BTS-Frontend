@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SearchInput from '@/components/input/SearchInput'
 import SCheckboxWithLabel from '@/components/checkbox/SCheckboxWithLabel'
+import FloatingActionButton from '@/components/button/FloatingActionButton'
 import RecruitSortDropdown from './components/list/RecruitSortDropdown'
 import RecruitBoardList from './components/list/RecruitBoardList'
 import QueryProvider from '@/app/(theme)/theme/components/QueryProvider'
@@ -58,7 +59,7 @@ function RecruitBoardContent() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="relative flex h-full w-full flex-col">
       <div
         className={`${isAtTop ? 'relative' : 'sticky top-0 z-10'} border-b border-[#F6F6F6] bg-white`}
       >
@@ -82,6 +83,18 @@ function RecruitBoardContent() {
         </div>
       </div>
       <RecruitBoardList params={boardParams} onItemClick={handleBoardClick} />
+
+      {/* 모집하기 버튼 - 리뷰 작성 FAB과 동일한 위치/스타일 */}
+      <div className="fixed bottom-[72px] left-1/2 w-full max-w-[600px] -translate-x-1/2 px-[16px]">
+        <div className="flex justify-end">
+          <FloatingActionButton
+            text="모집하기"
+            onClick={() => {
+              router.push('/board/recruit/write')
+            }}
+          />
+        </div>
+      </div>
     </div>
   )
 }
