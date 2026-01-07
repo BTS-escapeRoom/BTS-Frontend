@@ -24,6 +24,7 @@ export default function Toast({ message, type, visible, onClose }: ToastProps) {
           'bg-[#00FB60]': type === 'success',
           'bg-[#F4C328]': type === 'warning',
           'bg-[#FF4D4D]': type === 'error',
+          'bg-[#000000] text-white': type === 'info',
         },
       )}
     >
@@ -31,6 +32,7 @@ export default function Toast({ message, type, visible, onClose }: ToastProps) {
         {type === 'success' && <IconSuccess />}
         {type === 'warning' && <IconWarning />}
         {type === 'error' && <IconWarning fill="#FF4D4D" />}
+        {type === 'info' && <IconWarning fill="#fff" />}
       </div>
       <div className="flex flex-1 items-center px-[10px]">{message}</div>
       <HButton onClick={onClose}>

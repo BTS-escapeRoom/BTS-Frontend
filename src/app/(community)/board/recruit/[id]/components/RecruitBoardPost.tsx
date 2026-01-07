@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   IconKebabVertical,
   IconTimer,
@@ -21,6 +22,7 @@ import MoreMenuButton from '@/components/button/MoreMenuButton'
 import { useModalStore } from '@/store/modalStore'
 import BoardReportModalContent from '@/components/report/BoardReportModalContent'
 import { useAuthStore } from '@/features/auth/store/authStore'
+import { closeRecruit } from '@/features/board/api/closeRecruit'
 import type { BoardDetail } from '@/features/board/types/model'
 
 // 날짜 포맷팅 (YYYY.MM.DD hh:mm 형식)
@@ -138,19 +140,28 @@ type RecruitBoardPostProps = {
 type MorePopupProps = {
   isMyBoard: boolean
   boardId: number
+  onCloseRecruit: () => void
 }
 
-function MorePopup({ isMyBoard, boardId }: MorePopupProps) {
+function MorePopup({ isMyBoard, boardId, onCloseRecruit }: MorePopupProps) {
   const { showToast } = useToast()
 
   const handleClickCloseSheet = () => {
     useModalStore.setState({ isOpen: false })
   }
 
-  const handleClickExpire = () => {
-    // TODO: 모집글 마감 API 연동
-    showToast('모집글 마감 기능은 준비 중입니다.', 'info')
-    handleClickCloseSheet()
+  const handleClickExpire = async () => {
+    try {
+      await closeRecruit(boardId)
+      showToast('모집글이 마감되었습니다.', 'success')
+      // 게시글 상세 정보 다시 불러오기
+      onCloseRecruit()
+      handleClickCloseSheet()
+    } catch (error) {
+      console.error('모집글 마감 실패:', error)
+      showToast('모집글 마감에 실패했습니다. 잠시 후 다시 시도해 주세요.', 'error')
+      handleClickCloseSheet()
+    }
   }
 
   const handleClickEdit = () => {
@@ -204,6 +215,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
+  const queryClient = useQueryClient()
   const currentMemberId = useAuthStore((state) => state.memberInfo?.id)
   const isMyBoard = currentMemberId != null && board.memberId === currentMemberId
 
@@ -245,6 +257,11 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
       setLikeCount((prev) => prev + (prevLiked ? 1 : -1))
       showToast('관심글 상태를 변경하지 못했습니다. 잠시 후 다시 시도해 주세요.', 'error')
     }
+  }
+
+  // 모집글 마감 후 데이터 갱신 핸들러
+  const handleCloseRecruit = () => {
+    queryClient.invalidateQueries({ queryKey: ['board', 'detail', board.id] })
   }
 
   // 연락 방법 표시
@@ -332,7 +349,13 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
                 className: 'mx-[8px] mb-[12px]',
                 variant: 'bottomSheet',
               },
-              view: <MorePopup isMyBoard={isMyBoard} boardId={board.id} />,
+              view: (
+                <MorePopup
+                  isMyBoard={isMyBoard}
+                  boardId={board.id}
+                  onCloseRecruit={handleCloseRecruit}
+                />
+              ),
             })
           }}
         >

@@ -107,6 +107,19 @@ export async function apiPut<T>(
   })
 }
 
+// PATCH 요청 헬퍼
+export async function apiPatch<T>(
+  endpoint: string,
+  data?: any,
+  options: RequestInit = {},
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    method: 'PATCH',
+    body: data ? JSON.stringify(data) : undefined,
+    ...options,
+  })
+}
+
 // DELETE 요청 헬퍼
 export async function apiDelete<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   return apiRequest<T>(endpoint, {
