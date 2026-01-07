@@ -18,6 +18,7 @@ import { deleteComment } from '@/features/board/api/deleteComment'
 type RecruitBoardCommentsProps = {
   boardId: number
   commentCount: number
+  boardAuthorMemberId: number
 }
 
 // 날짜 포맷팅 (YYYY.MM.DD hh:mm 형식)
@@ -93,12 +94,19 @@ function CommentMorePopup({ isMyComment, comment, onEdit, onDelete }: CommentMor
 type CommentItemProps = {
   comment: BoardCommentApiItem
   currentMemberId: number | null
+  boardAuthorMemberId: number
   onEdit: (comment: BoardCommentApiItem) => void
   onDelete: (comment: BoardCommentApiItem) => void
 }
 
-function CommentItem({ comment, currentMemberId, onEdit, onDelete }: CommentItemProps) {
-  const isAuthor = currentMemberId !== null && comment.memberId === currentMemberId
+function CommentItem({
+  comment,
+  currentMemberId,
+  boardAuthorMemberId,
+  onEdit,
+  onDelete,
+}: CommentItemProps) {
+  const isAuthor = comment.memberId === boardAuthorMemberId
   const showMoreButton = !comment.isDeleted && !comment.isReported
 
   const handleClickMore = () => {
@@ -177,7 +185,10 @@ function CommentItem({ comment, currentMemberId, onEdit, onDelete }: CommentItem
   )
 }
 
-export default function RecruitBoardComments({ boardId }: RecruitBoardCommentsProps) {
+export default function RecruitBoardComments({
+  boardId,
+  boardAuthorMemberId,
+}: RecruitBoardCommentsProps) {
   const [comments, setComments] = useState<BoardCommentApiItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState('')
@@ -279,6 +290,7 @@ export default function RecruitBoardComments({ boardId }: RecruitBoardCommentsPr
                 key={comment.id}
                 comment={comment}
                 currentMemberId={currentMemberId}
+                boardAuthorMemberId={boardAuthorMemberId}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
               />
