@@ -1,4 +1,4 @@
-import { apiPut } from '@/utils/api'
+import { apiPatch } from '@/utils/api'
 
 // 모집글 수정 요청 바디 (등록과 동일 스펙)
 export interface UpdateBoardRequest {
@@ -17,9 +17,9 @@ interface UpdateBoardResponse {
   id: number
 }
 
-// 모집글 수정 API (PUT /v1/boards/{boardId})
+// 모집글 수정 API (PATCH /v1/boards/{boardId})
 export async function updateBoard(boardId: string | number, data: UpdateBoardRequest) {
   const id = typeof boardId === 'number' ? boardId : Number(boardId)
-  const response = await apiPut<{ data: UpdateBoardResponse }>(`/v1/boards/${id}`, data)
+  const response = await apiPatch<{ data: UpdateBoardResponse }>(`/v1/boards/${id}`, data)
   return response.data
 }

@@ -56,11 +56,10 @@ export default function RecruitEditPage() {
     )
   }
 
-  // TODO: RecruitForm에 initialData props를 추가해서 board 데이터를 연결할 수 있음
   return (
     <>
       <SHeader title="모집글 수정" showBack />
-      <RecruitForm mode="edit" boardId={board.id} />
+      <RecruitForm mode="edit" boardId={board.id} initialData={board} />
     </>
   )
 }

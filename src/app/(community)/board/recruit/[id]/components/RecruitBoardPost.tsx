@@ -145,6 +145,7 @@ type MorePopupProps = {
 
 function MorePopup({ isMyBoard, boardId, onCloseRecruit }: MorePopupProps) {
   const { showToast } = useToast()
+  const router = useRouter()
 
   const handleClickCloseSheet = () => {
     useModalStore.setState({ isOpen: false })
@@ -165,9 +166,8 @@ function MorePopup({ isMyBoard, boardId, onCloseRecruit }: MorePopupProps) {
   }
 
   const handleClickEdit = () => {
-    // TODO: 모집글 수정 화면으로 이동
-    showToast('모집글 수정 기능은 준비 중입니다.', 'info')
     handleClickCloseSheet()
+    router.push(`/board/recruit/edit/${boardId}`)
   }
 
   const handleClickDelete = () => {
@@ -284,7 +284,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
       )
     }
 
-    if (contactMethod === 'GOOGLE_FORM') {
+    if (contactMethod === 'GOOGLE') {
       return (
         <a
           href={board.contactUrl}
@@ -388,9 +388,9 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
             <span className="flex-1 text-14 text-gray06">{board.recruitPeople}</span>
           </div>
 
-          {/* 탈출 날짜 */}
+          {/* 탈출 일자 */}
           <div className="flex items-start gap-2">
-            <span className="w-[60px] shrink-0 text-14 text-gray06">탈출 날짜</span>
+            <span className="w-[60px] shrink-0 text-14 text-gray06">탈출 일자</span>
             <span className="flex-1 text-14 text-gray06">
               {escapeDateFormatted || '협의 후 결정'}
             </span>
@@ -398,7 +398,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
 
           {/* 연락 방법 */}
           {renderContactMethod() && (
-            <div className="flex items-start gap-2">
+            <div className="flex items-center gap-2">
               <span className="w-[60px] shrink-0 text-14 text-gray06">연락 방법</span>
               <div className="flex-1">{renderContactMethod()}</div>
             </div>

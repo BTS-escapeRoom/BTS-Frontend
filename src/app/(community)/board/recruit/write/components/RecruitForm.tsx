@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
 import { useModalStore } from '@/store/modalStore'
 import { createBoard } from '@/features/board/api/createBoard'
 import { updateBoard } from '@/features/board/api/updateBoard'
+import type { BoardDetail } from '@/features/board/types/model'
 import SButton from '@/components/button/SButton'
 import RecruitTitleField from './RecruitTitleField'
 import RecruitPeopleField from './RecruitPeopleField'
@@ -21,9 +22,10 @@ type Mode = 'create' | 'edit'
 interface RecruitFormProps {
   mode: Mode
   boardId?: number
+  initialData?: BoardDetail
 }
 
-export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
+export default function RecruitForm({ mode, boardId, initialData }: RecruitFormProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
@@ -49,6 +51,41 @@ export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
 
   const { openModal, closeModal } = useModalStore()
 
+  // 초기 데이터로 폼 초기화
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.title)
+      setPeople(initialData.recruitPeople)
+      setContent(initialData.description)
+      setContactMethod(initialData.contactMethod as 'OPEN_TALK' | 'GOOGLE' | 'ETC')
+      setContactUrl(initialData.contactUrl || '')
+
+      // 날짜 파싱
+      if (initialData.recruitDeadline) {
+        setDeadline(new Date(initialData.recruitDeadline))
+      }
+      if (initialData.escapeDate) {
+        setEscapeDate(new Date(initialData.escapeDate))
+        setIsEscapeNegotiable(false)
+      } else {
+        setIsEscapeNegotiable(true)
+      }
+
+      // 테마 정보 설정
+      if (initialData.theme) {
+        setSelectedTheme({
+          id: String(initialData.theme.id),
+          title: initialData.theme.title,
+          thumbnail: initialData.theme.thumbnail,
+          time: initialData.theme.time,
+          difficulty: initialData.theme.difficulty,
+          genreType: initialData.theme.genreType,
+          store: initialData.theme.store?.name,
+        })
+      }
+    }
+  }, [initialData])
+
   const formatDateToIsoString = (date: Date | null): string | null => {
     if (!date) return null
     return date.toISOString()
@@ -73,7 +110,7 @@ export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
       {
         variant: 'fullScreen',
         title: '테마 연결하기',
-      }
+      },
     )
   }
 
@@ -147,10 +184,7 @@ export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
           onMethodChange={setContactMethod}
           onUrlChange={setContactUrl}
         />
-        <RecruitThemeField
-          theme={selectedTheme}
-          onClick={handleOpenThemeSelectModal}
-        />
+        <RecruitThemeField theme={selectedTheme} onClick={handleOpenThemeSelectModal} />
         <RecruitDeadlineField value={deadline} onChange={setDeadline} />
         <RecruitContentField value={content} onChange={setContent} />
       </div>
