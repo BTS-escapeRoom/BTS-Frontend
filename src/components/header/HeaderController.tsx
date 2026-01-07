@@ -28,6 +28,8 @@ export default function HeaderController() {
           router.replace('/login')
         }
         return { ...headerConfig, showBack: true, title: '닉네임 설정', onBack }
+      case '/my':
+        return { ...headerConfig, title: '나의 탈출' }
     }
     return {
       ...headerConfig,
