@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
+import { useModalStore } from '@/store/modalStore'
 import { createBoard } from '@/features/board/api/createBoard'
 import { updateBoard } from '@/features/board/api/updateBoard'
 import SButton from '@/components/button/SButton'
@@ -13,6 +14,7 @@ import RecruitContactField from './RecruitContactField'
 import RecruitThemeField from './RecruitThemeField'
 import RecruitDeadlineField from './RecruitDeadlineField'
 import RecruitContentField from './RecruitContentField'
+import ThemeSelectModal from './ThemeSelectModal'
 
 type Mode = 'create' | 'edit'
 
@@ -35,13 +37,44 @@ export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
   const [deadline, setDeadline] = useState<Date | null>(null)
   const [content, setContent] = useState('')
 
-  // TODO: 테마 선택 로직 연동
-  const [themeName] = useState<string | undefined>(undefined)
-  const [storeName] = useState<string | undefined>(undefined)
+  const [selectedTheme, setSelectedTheme] = useState<{
+    id: string
+    title: string
+    thumbnail?: string
+    time?: number
+    difficulty?: number
+    genreType?: string
+    store?: string
+  } | null>(null)
+
+  const { openModal, closeModal } = useModalStore()
 
   const formatDateToIsoString = (date: Date | null): string | null => {
     if (!date) return null
     return date.toISOString()
+  }
+
+  const handleOpenThemeSelectModal = () => {
+    openModal(
+      <ThemeSelectModal
+        onSelect={(theme) => {
+          setSelectedTheme({
+            id: theme.id,
+            title: theme.title,
+            thumbnail: theme.thumbnail,
+            time: theme.time,
+            difficulty: theme.difficulty,
+            genreType: theme.genreType,
+            store: theme.store,
+          })
+          closeModal()
+        }}
+      />,
+      {
+        variant: 'fullScreen',
+        title: '테마 연결하기',
+      }
+    )
   }
 
   const handleSubmit = async () => {
@@ -65,7 +98,7 @@ export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
       const deadlineIso = formatDateToIsoString(deadline)!
 
       const payload = {
-        // themeId: TODO - 테마 선택 연동 시 추가
+        themeId: selectedTheme ? Number(selectedTheme.id) : undefined,
         type: 'recruit' as const,
         title: title.trim(),
         description: content.trim(),
@@ -115,11 +148,8 @@ export default function RecruitForm({ mode, boardId }: RecruitFormProps) {
           onUrlChange={setContactUrl}
         />
         <RecruitThemeField
-          themeName={themeName}
-          storeName={storeName}
-          onClick={() => {
-            // 테마 선택 모달/페이지로 이동
-          }}
+          theme={selectedTheme}
+          onClick={handleOpenThemeSelectModal}
         />
         <RecruitDeadlineField value={deadline} onChange={setDeadline} />
         <RecruitContentField value={content} onChange={setContent} />

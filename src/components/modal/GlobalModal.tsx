@@ -3,6 +3,7 @@
 import { useModalStore } from '@/store/modalStore'
 import Modal from './Modal'
 import BottomSheetModal from './BottomSheetModal'
+import FullScreenModal from './FullScreenModal'
 
 export default function GlobalModal() {
   const { isOpen, view, props, closeModal } = useModalStore()
@@ -12,6 +13,14 @@ export default function GlobalModal() {
       <BottomSheetModal isOpen={isOpen} onClose={closeModal} {...props}>
         {view}
       </BottomSheetModal>
+    )
+  }
+
+  if (props?.variant === 'fullScreen') {
+    return (
+      <FullScreenModal isOpen={isOpen} onClose={closeModal} {...props}>
+        {view}
+      </FullScreenModal>
     )
   }
 
