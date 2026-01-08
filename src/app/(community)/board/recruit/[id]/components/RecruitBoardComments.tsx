@@ -107,6 +107,7 @@ function CommentItem({
   onDelete,
 }: CommentItemProps) {
   const isAuthor = comment.memberId === boardAuthorMemberId
+  const isMyComment = comment.memberId === currentMemberId
   const showMoreButton = !comment.isDeleted && !comment.isReported
 
   const handleClickMore = () => {
@@ -120,7 +121,7 @@ function CommentItem({
       },
       view: (
         <CommentMorePopup
-          isMyComment={isAuthor}
+          isMyComment={isMyComment}
           comment={comment}
           onEdit={onEdit}
           onDelete={onDelete}
