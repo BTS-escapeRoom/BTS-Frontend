@@ -40,13 +40,7 @@ export default function MyEscapePage() {
       <div className="flex h-full w-full flex-col">
         <div className="flex items-center px-4 py-4">
           <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
-            <Image
-              src={profileImage}
-              alt="프로필"
-              fill
-              className="object-cover"
-              sizes="48px"
-            />
+            <Image src={profileImage} alt="프로필" fill className="object-cover" sizes="48px" />
           </div>
           <span className="ml-4 text-14 font-bold text-gray07">{nickname}</span>
         </div>
@@ -59,7 +53,9 @@ export default function MyEscapePage() {
           <div className="mt-4 text-14 font-bold text-gray07">나의 활동</div>
 
           {/* 내가 쓴 리뷰 */}
-          <button className="py-[18px] text-left text-14 font-bold text-gray07">내가 쓴 리뷰</button>
+          <button className="py-[18px] text-left text-14 font-bold text-gray07">
+            내가 쓴 리뷰
+          </button>
 
           {/* 문의하기 */}
           <button className="py-[18px] text-left text-14 font-bold text-gray07">문의하기</button>

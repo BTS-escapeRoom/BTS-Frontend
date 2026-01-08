@@ -5,4 +5,3 @@ export async function closeRecruit(boardId: string | number) {
   const id = typeof boardId === 'number' ? boardId : Number(boardId)
   await apiPatch<{ data: null }>(`/v1/boards/${id}/close-recruit`)
 }
-

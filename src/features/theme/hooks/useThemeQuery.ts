@@ -9,7 +9,7 @@ const key = (params: Omit<ThemeQueryParams, 'page'>) => ['themes', params]
 
 export function useInfiniteThemes(
   params: Omit<ThemeQueryParams, 'page'>,
-  options?: { enabled?: boolean }
+  options?: { enabled?: boolean },
 ) {
   return useInfiniteQuery({
     queryKey: key(params),
