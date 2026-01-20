@@ -21,6 +21,7 @@ export default {
       },
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
+        galmuri: ['var(--font-galmuri)'],
       },
       fontSize: {
         12: '12px',

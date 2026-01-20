@@ -6,6 +6,7 @@ import HeaderController from '@/components/header/HeaderController'
 import { useAuthStore } from '@/features/auth/store/authStore'
 import { useModalStore } from '@/store/modalStore'
 import ConfirmModalContent from '@/components/modal/ConfirmModalContent'
+import EscapeRecordList from './components/EscapeRecordList'
 
 export default function MyEscapePage() {
   const router = useRouter()
@@ -46,11 +47,11 @@ export default function MyEscapePage() {
         </div>
 
         <div className="mt-4 flex flex-col px-4">
-          {/* 방탈출 기록 - 타이틀만 */}
-          <div className="text-14 font-bold text-gray07">방탈출 기록</div>
+          {/* 방탈출 기록 - 타이틀 + 리스트 컴포넌트 */}
+          <EscapeRecordList />
 
-          {/* 나의 활동 - 타이틀만 */}
-          <div className="mt-4 text-14 font-bold text-gray07">나의 활동</div>
+          {/* 나의 활동 */}
+          <button className="py-[18px] text-left text-14 font-bold text-gray07">나의 활동</button>
 
           {/* 내가 쓴 리뷰 */}
           <button className="py-[18px] text-left text-14 font-bold text-gray07">

@@ -221,6 +221,15 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
 
   const profileImg = (board as BoardDetail & { profileImg?: string }).profileImg
 
+  const handleAuthorClick = () => {
+    const searchParams = new URLSearchParams()
+    searchParams.set('nickname', board.memberName)
+    if (profileImg) {
+      searchParams.set('profileImg', profileImg)
+    }
+    router.push(`/profile/${board.memberId}?${searchParams.toString()}`)
+  }
+
   const deadlineInfo = getDeadlineInfo(board.recruitDeadline)
   const escapeDateFormatted = formatEscapeDate(board.escapeDate)
 
@@ -315,7 +324,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
       {/* 작성정보 영역 */}
       <div className="mt-6 flex items-center justify-between">
         {/* 좌측: 작성자 정보 */}
-        <div className="flex items-start gap-2">
+        <button type="button" onClick={handleAuthorClick} className="flex items-start gap-2">
           {/* 프로필 사진 */}
           <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
             <Image
@@ -327,7 +336,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
           </div>
 
           {/* 닉네임, 작성시간, 조회수 */}
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col items-start justify-between">
             <span className="text-12 font-semibold text-gray05">{board.memberName}</span>
             <span className="flex items-center gap-[4px]">
               <span className="text-12 text-gray04">{formatDateTime(board.createdAt)}</span>
@@ -335,7 +344,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
               <span className="text-12 text-gray04">조회수 {board.hit}</span>
             </span>
           </div>
-        </div>
+        </button>
 
         {/* 우측: 더보기 버튼 */}
         <HButton

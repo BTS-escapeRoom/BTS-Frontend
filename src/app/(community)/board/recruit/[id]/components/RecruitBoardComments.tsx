@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { IconKebabVertical } from '@/components/icons'
 import SChip from '@/components/chip/SChip'
 import { getBoardComments } from '@/features/board/api/getBoardComments'
@@ -106,6 +107,7 @@ function CommentItem({
   onEdit,
   onDelete,
 }: CommentItemProps) {
+  const router = useRouter()
   const isAuthor = comment.memberId === boardAuthorMemberId
   const isMyComment = comment.memberId === currentMemberId
   const showMoreButton = !comment.isDeleted && !comment.isReported
@@ -130,12 +132,22 @@ function CommentItem({
     })
   }
 
+  const handleProfileClick = () => {
+    const searchParams = new URLSearchParams()
+    searchParams.set('nickname', comment.memberName)
+    router.push(`/profile/${comment.memberId}?${searchParams.toString()}`)
+  }
+
   return (
     <div className="flex flex-row items-start gap-4">
       {/* 좌측: 프로필 사진 + 닉네임 + 작성일자 + 내용 */}
       <div className="flex-1">
         {/* 프로필 사진 + 닉네임 + 작성일자 */}
-        <div className="flex flex-row items-center gap-2">
+        <button
+          type="button"
+          onClick={handleProfileClick}
+          className="flex flex-row items-center gap-2"
+        >
           {/* 프로필 사진 */}
           <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
             <Image
@@ -156,7 +168,7 @@ function CommentItem({
             </div>
             <span className="text-[11px] text-gray04">{formatDateTime(comment.createdAt)}</span>
           </div>
-        </div>
+        </button>
 
         {/* 댓글 내용 */}
         <div className="ml-[44px]">

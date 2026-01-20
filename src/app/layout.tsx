@@ -14,6 +14,13 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 })
 
+const galmuri = localFont({
+  src: '../../public/fonts/Galmuri9.woff2',
+  display: 'swap',
+  weight: '400',
+  variable: '--font-galmuri',
+})
+
 export const metadata: Metadata = {
   title: '방탈소년단',
   description: 'hello bangtal boys!',
@@ -26,7 +33,7 @@ export default function RootLayout({
 }>) {
   // toast가 모든 레이어들 중 최상단에 위치하도록
   return (
-    <html lang="en" className={`${pretendard.className} `}>
+    <html lang="en" className={`${pretendard.className} ${galmuri.variable}`}>
       <body className="bg-gray02">
         <QueryProvider>
           <AuthProvider>
