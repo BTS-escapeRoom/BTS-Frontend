@@ -7,9 +7,6 @@ import {
   IconKebabVertical,
   IconTimer,
   IconExternal,
-  IconClock,
-  IconLockFull,
-  IconLockHalf,
   IconHeart,
   IconComment,
 } from '@/components/icons'
@@ -24,6 +21,7 @@ import BoardReportModalContent from '@/components/report/BoardReportModalContent
 import { useAuthStore } from '@/features/auth/store/authStore'
 import { closeRecruit } from '@/features/board/api/closeRecruit'
 import type { BoardDetail } from '@/features/board/types/model'
+import ThemeInfoButton from './ThemeInfoButton'
 
 // 날짜 포맷팅 (YYYY.MM.DD hh:mm 형식)
 function formatDateTime(dateString: string) {
@@ -104,33 +102,6 @@ function getDeadlineInfo(recruitDeadline: string) {
       textColor: 'white',
     }
   }
-}
-
-// 시간 포맷팅 (mm분ss초 형식)
-function formatTimeLabel(totalMinutes?: number) {
-  if (totalMinutes == null || Number.isNaN(totalMinutes)) return '??분'
-  const minutes = Math.floor(totalMinutes)
-  const secondsNum = Math.round((totalMinutes - minutes) * 60)
-  const seconds = Math.max(0, Math.min(59, secondsNum))
-  const mm = String(minutes).padStart(2, '0')
-  const ss = String(seconds).padStart(2, '0')
-  if (seconds === 0) return `${mm}분`
-  return `${mm}분${ss}초`
-}
-
-// 난이도 아이콘 렌더링
-function renderDifficultyIcons(difficulty?: number) {
-  if (difficulty == null || Number.isNaN(difficulty)) return null
-  const full = Math.floor(difficulty)
-  const hasHalf = difficulty - full > 0
-  const icons: React.ReactNode[] = []
-  for (let i = 0; i < full; i += 1) {
-    icons.push(<IconLockFull key={`full-${i}`} fill="#424242" />)
-  }
-  if (hasHalf) {
-    icons.push(<IconLockHalf key="half" fill="#424242" />)
-  }
-  return <div className="flex items-center gap-[2px]">{icons}</div>
 }
 
 type RecruitBoardPostProps = {
@@ -419,31 +390,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
       {themeDetail && (
         <div className="mt-6">
           <h2 className="text-14 font-bold text-gray06">테마 정보</h2>
-          <button
-            onClick={handleThemeClick}
-            className="mt-1 w-full rounded-[2px] bg-[#FAFAFA] p-2 text-left transition-opacity hover:opacity-80"
-          >
-            <div className="flex gap-2">
-              {/* 좌측: 썸네일 */}
-              <ThemeThumbnail theme={themeDetail} />
-
-              {/* 우측: 테마 정보 */}
-              <div className="flex flex-1 flex-col gap-1">
-                {/* 첫번째 줄: 테마명 */}
-                <div className="text-14 font-bold text-gray06">{themeDetail.title}</div>
-
-                {/* 두번째 줄: genre, difficulty, time chip */}
-                <div className="flex flex-wrap items-center gap-[6px]">
-                  <SChip text={themeDetail.genreType} />
-                  <DifficultyChip difficulty={themeDetail.difficulty} />
-                  <SChip text={formatTimeLabel(themeDetail.time)} icon={<IconClock />} />
-                </div>
-
-                {/* 세번째 줄: city와 store 명 */}
-                <div className="text-12 text-gray06">{themeDetail.store?.name}</div>
-              </div>
-            </div>
-          </button>
+          <ThemeInfoButton theme={themeDetail} onClick={handleThemeClick} />
         </div>
       )}
 
@@ -483,44 +430,4 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
       </div>
     </div>
   )
-}
-
-// 테마 썸네일 컴포넌트
-function ThemeThumbnail({
-  theme,
-}: {
-  theme: { thumbnail?: string; title: string; store?: { name: string } }
-}) {
-  const [imgError, setImgError] = useState(false)
-  const showFallback = !theme.thumbnail || imgError
-
-  return (
-    <div className="relative h-[80px] w-[60px] shrink-0 overflow-hidden bg-gray06">
-      {showFallback ? (
-        <div className="absolute inset-0 flex items-center justify-center px-1">
-          <span className="line-clamp-3 break-words text-center text-[10px] font-semibold text-white">
-            {theme.title}_{theme.store?.name}
-          </span>
-        </div>
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={theme.thumbnail}
-          alt={theme.title}
-          className="h-full w-full object-cover"
-          onError={() => setImgError(true)}
-        />
-      )}
-    </div>
-  )
-}
-
-// 난이도 Chip 컴포넌트
-function DifficultyChip({ difficulty }: { difficulty?: number }) {
-  if (difficulty == null || Number.isNaN(difficulty)) return null
-
-  const difficultyText = difficulty.toFixed(1)
-  const icons = renderDifficultyIcons(difficulty)
-
-  return <SChip text={difficultyText} icon={icons} bgColor="gray02" textColor="gray06" />
 }

@@ -51,10 +51,18 @@ export default function MyEscapePage() {
           <EscapeRecordList />
 
           {/* 나의 활동 */}
-          <button className="py-[18px] text-left text-14 font-bold text-gray07">나의 활동</button>
+          <button
+            onClick={() => router.push('/my/activity/recruit')}
+            className="py-[18px] text-left text-14 font-bold text-gray07"
+          >
+            나의 활동
+          </button>
 
           {/* 내가 쓴 리뷰 */}
-          <button className="py-[18px] text-left text-14 font-bold text-gray07">
+          <button
+            onClick={() => router.push('/my/review')}
+            className="py-[18px] text-left text-14 font-bold text-gray07"
+          >
             내가 쓴 리뷰
           </button>
 

@@ -48,7 +48,10 @@ export default function RecruitBoardCard({
   }
 
   // 탈출 일자 포맷팅 (YYYY년 MM월 DD일 오전/오후 hh시 mm분)
-  const formatEscapeDate = (dateString: string) => {
+  const formatEscapeDate = (dateString: string | null) => {
+    if (!dateString) {
+      return '미정'
+    }
     try {
       const date = new Date(dateString)
       const year = date.getFullYear()
@@ -61,7 +64,7 @@ export default function RecruitBoardCard({
       const displayMinutes = minutes.toString().padStart(2, '0')
       return `${year}년 ${month}월 ${day}일 ${ampm} ${displayHours}시 ${displayMinutes}분`
     } catch {
-      return dateString
+      return '미정'
     }
   }
 
@@ -174,7 +177,7 @@ export default function RecruitBoardCard({
           className={`${themeName || storeName ? 'mt-4' : ''} flex flex-col gap-1 text-12 text-gray05`}
         >
           <div>모집인원 {recruitPeople}명</div>
-          <div>{formatEscapeDate(escapeDate)}</div>
+          <div>탈출일자 {formatEscapeDate(escapeDate)}</div>
         </div>
       </div>
 

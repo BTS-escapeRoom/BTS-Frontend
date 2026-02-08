@@ -1,4 +1,7 @@
 export * from './api/getBoards'
 export * from './api/getBoards.types'
+export * from './api/getMyBoards'
+export * from './api/getMyBoards.types'
 export * from './hooks/useBoardsQuery'
+export * from './hooks/useMyBoardsQuery'
 export * from './types/model'
