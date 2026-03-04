@@ -1,4 +1,4 @@
-import { apiGet } from '@/utils/api'
+import { apiDelete, apiGet } from '@/utils/api'
 
 export type SocialType = 'KAKAO' | 'NAVER' | 'APPLE'
 
@@ -20,7 +20,16 @@ export type MemberInfoApiResponse = {
   data: MemberInfo
 }
 
+type DeleteMemberApiResponse = {
+  code: string
+  message: string
+}
+
 export async function getMemberInfo(): Promise<MemberInfo> {
   const json = await apiGet<MemberInfoApiResponse>('/v1/members/me')
   return json.data
+}
+
+export async function deleteMember(): Promise<void> {
+  await apiDelete<DeleteMemberApiResponse>('/v1/members')
 }
