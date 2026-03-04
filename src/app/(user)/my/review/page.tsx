@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { use, useState, useEffect } from 'react'
+import { Suspense, use, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SHeader from '@/components/header/SHeader'
 import QueryProvider from '@/app/(theme)/theme/components/QueryProvider'
@@ -215,7 +215,9 @@ export default function MyReviewPage({ params }: MyReviewPageProps) {
   use(params) // params를 사용하여 Promise를 unwrap
   return (
     <QueryProvider>
-      <MyReviewContent />
+      <Suspense fallback={<div className="flex h-full w-full flex-col">로딩 중...</div>}>
+        <MyReviewContent />
+      </Suspense>
     </QueryProvider>
   )
 }
