@@ -112,7 +112,7 @@ export default function ProfileEditPage() {
           <SButton
             onClick={handleSelectProfileImage}
             size="md"
-            className="h-[40px] w-auto rounded-[20px] bg-gray04 px-[16px] text-16 text-gray06"
+            className="h-[40px] !w-auto rounded-[20px] bg-gray04 px-[16px] text-16 text-gray06"
           >
             프로필 사진 변경
           </SButton>
