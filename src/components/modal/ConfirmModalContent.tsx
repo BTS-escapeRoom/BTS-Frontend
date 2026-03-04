@@ -9,6 +9,7 @@ interface ConfirmModalContentProps {
   onConfirm: () => void
   confirmText?: string
   cancelText?: string
+  confirmFirst?: boolean
 }
 
 export default function ConfirmModalContent({
@@ -17,6 +18,7 @@ export default function ConfirmModalContent({
   onConfirm,
   confirmText = '확인',
   cancelText = '취소',
+  confirmFirst = false,
 }: ConfirmModalContentProps) {
   const { closeModal } = useModalStore()
 
@@ -29,17 +31,28 @@ export default function ConfirmModalContent({
     closeModal()
   }
 
+  const actionButtons = confirmFirst
+    ? [
+        <SButton key="confirm" onClick={handleConfirm} className="bg-gray07 text-white" size="md">
+          {confirmText}
+        </SButton>,
+        <SButton key="cancel" onClick={handleCancel} className="bg-gray04 text-gray07" size="md">
+          {cancelText}
+        </SButton>,
+      ]
+    : [
+        <SButton key="cancel" onClick={handleCancel} className="bg-gray04 text-gray07" size="md">
+          {cancelText}
+        </SButton>,
+        <SButton key="confirm" onClick={handleConfirm} className="bg-gray07 text-white" size="md">
+          {confirmText}
+        </SButton>,
+      ]
+
   return (
     <div className="flex flex-col gap-[16px] px-[24px] py-[16px]">
-      <div className="text-center text-[14px] text-gray06">{message}</div>
-      <div className="flex gap-[8px]">
-        <SButton onClick={handleCancel} className="bg-gray04 text-gray07" size="md">
-          {cancelText}
-        </SButton>
-        <SButton onClick={handleConfirm} className="bg-gray07 text-white" size="md">
-          {confirmText}
-        </SButton>
-      </div>
+      <div className="t mb-[16px] text-center text-[14px]">{message}</div>
+      <div className="flex gap-[8px]">{actionButtons}</div>
     </div>
   )
 }

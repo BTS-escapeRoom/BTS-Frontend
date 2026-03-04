@@ -29,6 +29,7 @@ export default function MyEscapePage() {
         }}
         confirmText="로그아웃"
         cancelText="취소"
+        confirmFirst
       />,
       {
         title: '로그인',
