@@ -43,6 +43,10 @@ export default function MyEscapePage() {
     })
   }
 
+  const handleOpenSettingsPage = () => {
+    router.push('/my/settings')
+  }
+
   return (
     <>
       <HeaderController />
@@ -94,7 +98,12 @@ export default function MyEscapePage() {
           </button>
 
           {/* 서비스 설정 */}
-          <button className="py-[18px] text-left text-14 font-bold text-gray07">서비스 설정</button>
+          <button
+            onClick={handleOpenSettingsPage}
+            className="py-[18px] text-left text-14 font-bold text-gray07"
+          >
+            서비스 설정
+          </button>
         </div>
       </div>
     </>
