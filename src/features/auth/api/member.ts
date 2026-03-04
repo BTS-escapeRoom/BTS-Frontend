@@ -11,6 +11,7 @@ export type MemberInfo = {
   description: string
   socialType: SocialType
   role: Role
+  createdAt?: string | null
 }
 
 export type MemberInfoApiResponse = {
