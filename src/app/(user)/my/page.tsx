@@ -7,6 +7,7 @@ import { useAuthStore } from '@/features/auth/store/authStore'
 import { useModalStore } from '@/store/modalStore'
 import ConfirmModalContent from '@/components/modal/ConfirmModalContent'
 import EscapeRecordList from './components/EscapeRecordList'
+import InquiryModalContent from './components/InquiryModalContent'
 
 export default function MyEscapePage() {
   const router = useRouter()
@@ -33,6 +34,12 @@ export default function MyEscapePage() {
         title: '로그인',
       },
     )
+  }
+
+  const handleOpenInquiryModal = () => {
+    openModal(<InquiryModalContent />, {
+      title: '문의하기',
+    })
   }
 
   return (
@@ -67,7 +74,12 @@ export default function MyEscapePage() {
           </button>
 
           {/* 문의하기 */}
-          <button className="py-[18px] text-left text-14 font-bold text-gray07">문의하기</button>
+          <button
+            onClick={handleOpenInquiryModal}
+            className="py-[18px] text-left text-14 font-bold text-gray07"
+          >
+            문의하기
+          </button>
 
           {/* 공지사항 */}
           <button className="py-[18px] text-left text-14 font-bold text-gray07">공지사항</button>
