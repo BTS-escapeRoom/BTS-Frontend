@@ -26,3 +26,4 @@ export type MyBoardApiResponse = {
   message: string | null
   data: MyBoardApiItem[]
 }
+

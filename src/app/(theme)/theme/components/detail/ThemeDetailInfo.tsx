@@ -4,6 +4,9 @@ import type { ThemeDetail as ThemeDetailType } from '@/features/theme/api/getThe
 import ThemeCommonInfo from './ThemeCommonInfo'
 import SButton from '@/components/button/SButton'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/features/auth'
+import { useModalStore } from '@/store/modalStore'
+import ConfirmModalContent from '@/components/modal/ConfirmModalContent'
 
 type ThemeDetailInfoProps = {
   theme: ThemeDetailType
@@ -11,6 +14,8 @@ type ThemeDetailInfoProps = {
 
 export default function ThemeDetailInfo({ theme }: ThemeDetailInfoProps) {
   const router = useRouter()
+  const { isAuthenticated, isLoading } = useAuth()
+  const { openModal } = useModalStore()
 
   const handleReserve = () => {
     if (!theme.reservationUrl) return
@@ -18,8 +23,27 @@ export default function ThemeDetailInfo({ theme }: ThemeDetailInfoProps) {
   }
 
   const handleRecruit = () => {
-    // TODO: 임시 경로 - 추후 실제 모집글 작성 경로로 변경 예정
-    router.push(`/board/recruit/new?themeId=${theme.id}`)
+    if (isLoading) return
+
+    if (!isAuthenticated) {
+      openModal(
+        <ConfirmModalContent
+          title="로그인이 필요해요 🚪"
+          message={'이 기능은 로그인 후 이용할 수 있어요.\n지금 로그인하고 모집글을 작성할까요? 🔑'}
+          onConfirm={() => {
+            router.push('/login')
+          }}
+          confirmText="로그인 하러 가기"
+          cancelText="닫기"
+        />,
+        {
+          title: '로그인이 필요해요 🚪',
+        },
+      )
+      return
+    }
+
+    router.push(`/board/recruit/write?themeId=${theme.id}`)
   }
 
   return (

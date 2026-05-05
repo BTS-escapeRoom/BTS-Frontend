@@ -1,5 +1,3 @@
-import type { ThemeDetail } from './getThemeDetail.types'
-
 export interface MyReview {
   id: number
   content: string
@@ -16,7 +14,15 @@ export interface MyReview {
   createdAt: string
   isMyReview: boolean
   nickname: string
-  theme?: ThemeDetail // 테마 정보 (ThemeInfoButton 표시를 위해 필요)
+  themeId?: number | null
+  themeTitle?: string | null
+  themeThumbnail?: string | null
+  themeGenre?: string | null
+  themeCity?: string | null
+  themeDistrict?: string | null
+  genreType?: string | null
+  storeName?: string | null
+  time?: number | null
 }
 
 export interface MyReviewsApiResponse {

@@ -7,6 +7,7 @@ import { useModalStore } from '@/store/modalStore'
 import { createBoard } from '@/features/board/api/createBoard'
 import { updateBoard } from '@/features/board/api/updateBoard'
 import type { BoardDetail } from '@/features/board/types/model'
+import { getThemeDetail } from '@/features/theme/api/getThemeDetail'
 import SButton from '@/components/button/SButton'
 import RecruitTitleField from './RecruitTitleField'
 import RecruitPeopleField from './RecruitPeopleField'
@@ -85,6 +86,43 @@ export default function RecruitForm({ mode, boardId, initialData }: RecruitFormP
       }
     }
   }, [initialData])
+
+  useEffect(() => {
+    if (mode !== 'create') return
+
+    const themeId = searchParams.get('themeId')
+    if (!themeId) return
+    if (selectedTheme?.id === themeId) return
+
+    let isCancelled = false
+
+    const syncThemeFromQuery = async () => {
+      try {
+        const theme = await getThemeDetail(themeId)
+        if (isCancelled) return
+
+        setSelectedTheme({
+          id: String(theme.id),
+          title: theme.title,
+          thumbnail: theme.thumbnail,
+          time: theme.time,
+          difficulty: theme.difficulty,
+          genreType: theme.genreType,
+          store: theme.store?.name,
+        })
+      } catch (error) {
+        if (isCancelled) return
+        console.error('테마 정보 조회 실패:', error)
+        showToast('테마 정보를 불러오지 못했습니다.', 'error')
+      }
+    }
+
+    syncThemeFromQuery()
+
+    return () => {
+      isCancelled = true
+    }
+  }, [mode, searchParams, selectedTheme?.id, showToast])
 
   const formatDateToIsoString = (date: Date | null): string | null => {
     if (!date) return null

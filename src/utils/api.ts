@@ -36,7 +36,7 @@ export async function apiRequest<T>(endpoint: string, options: RequestInit = {})
   const response = await fetch(url, defaultOptions)
 
   // 401 에러 시 토큰 갱신 시도
-  if (response.status === 401 && endpoint !== '/reissue') {
+  if (response.status === 401 && endpoint !== '/v1/reissue') {
     const refreshSuccess = await refreshToken()
     if (refreshSuccess) {
       // 갱신 성공 시 재시도

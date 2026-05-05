@@ -16,6 +16,23 @@ import SButton from '@/components/button/SButton'
 
 type TabKey = 'detail' | 'reservation' | 'review'
 
+function MyReviewThemeInfo({
+  review,
+  onClick,
+}: {
+  review: MyReview
+  onClick: (themeId: string) => void
+}) {
+  const themeId = review.themeId != null ? String(review.themeId) : null
+  const { data: themeDetail } = useThemeDetail(themeId)
+
+  if (!themeId || !themeDetail) {
+    return null
+  }
+
+  return <ThemeInfoButton theme={themeDetail} onClick={() => onClick(themeId)} />
+}
+
 // MyReview를 Review 타입으로 변환
 function convertMyReviewToReview(myReview: MyReview): Review {
   return {
@@ -171,15 +188,9 @@ function MyReviewContent() {
           {reviews.map((review, index) => (
             <div
               key={review.id}
-              className={`flex flex-col gap-4 border-b border-gray02 ${index < reviews.length - 1 ? 'mb-6' : ''}`}
+              className={`flex flex-col gap-2 border-b border-gray02 ${index < reviews.length - 1 ? 'my-[8px]' : ''}`}
             >
-              {/* 테마 정보 버튼 */}
-              {review.theme && (
-                <ThemeInfoButton
-                  theme={review.theme}
-                  onClick={() => handleThemeClick(review.theme!.id.toString())}
-                />
-              )}
+              <MyReviewThemeInfo review={review} onClick={handleThemeClick} />
 
               {/* 리뷰 아이템 */}
               <ReviewItem
