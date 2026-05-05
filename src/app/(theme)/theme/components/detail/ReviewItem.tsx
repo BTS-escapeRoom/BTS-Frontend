@@ -175,9 +175,10 @@ export default function ReviewItem({ review, onDeleteSuccess }: ReviewItemProps)
   }
 
   return (
-    <div className="flex flex-col gap-[12px] border-b border-gray02 pb-[24px] last:mb-0 last:border-b-0">
+    <div className="flex flex-col gap-[12px] border-b border-gray02 py-[24px] last:mb-0 last:border-b-0">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-[4px]">
+          <div className="text-[12px] font-semibold text-gray05">{review.nickname}</div>
           {review.isMyReview && <SChip text="내가 쓴 리뷰" bgColor="#9747FF" textColor="#fff" />}
           {review.isSuccess ? (
             <SChip text="탈출성공" bgColor="#000" textColor="#fff" icon={<IconLockOpen />} />
