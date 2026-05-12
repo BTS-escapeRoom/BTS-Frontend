@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import SHeader from '@/components/header/SHeader'
 import SInput from '@/components/input/SInput'
@@ -16,53 +16,24 @@ export default function ProfileEditPage() {
   const { mutate, isPending } = useSetNickname()
   const memberInfo = useAuthStore((state) => state.memberInfo)
   const fetchMemberInfo = useAuthStore((state) => state.fetchMemberInfo)
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [nickname, setNickname] = useState('')
-  const [previewImage, setPreviewImage] = useState('')
-  const [hasImageSelection, setHasImageSelection] = useState(false)
 
   useEffect(() => {
     if (!memberInfo) return
     setNickname(memberInfo.nickname ?? '')
-    setPreviewImage(memberInfo.profileImg || '/images/default-profile.png')
   }, [memberInfo])
 
   const trimmedNickname = nickname.trim()
-  const currentProfileImage = memberInfo?.profileImg || '/images/default-profile.png'
+  const displayProfileImage = memberInfo?.profileImg || '/images/default-profile.png'
 
   const isChanged = useMemo(() => {
     if (!memberInfo) return false
-    return trimmedNickname !== (memberInfo.nickname ?? '') || hasImageSelection
-  }, [hasImageSelection, memberInfo, trimmedNickname])
+    return trimmedNickname !== (memberInfo.nickname ?? '')
+  }, [memberInfo, trimmedNickname])
 
   const isDisabled =
     isPending || !isChanged || !trimmedNickname || trimmedNickname.length > MAX_NICKNAME_LENGTH
-
-  useEffect(() => {
-    return () => {
-      if (previewImage.startsWith('blob:')) {
-        URL.revokeObjectURL(previewImage)
-      }
-    }
-  }, [previewImage])
-
-  const handleSelectProfileImage = () => {
-    fileInputRef.current?.click()
-  }
-
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    if (previewImage.startsWith('blob:')) {
-      URL.revokeObjectURL(previewImage)
-    }
-
-    const objectUrl = URL.createObjectURL(file)
-    setPreviewImage(objectUrl)
-    setHasImageSelection(true)
-  }
 
   const handleSave = () => {
     if (!trimmedNickname) {
@@ -79,8 +50,6 @@ export default function ProfileEditPage() {
       {
         onSuccess: async () => {
           await fetchMemberInfo()
-          setHasImageSelection(false)
-          setPreviewImage(currentProfileImage)
           showToast('프로필이 저장되었습니다.', 'success')
         },
         onError: (error: Error) => {
@@ -99,30 +68,16 @@ export default function ProfileEditPage() {
       <SHeader title="설정" showBack />
 
       <div className="flex-1 overflow-y-auto pb-[92px]">
-        <div className="flex h-[214px] w-full flex-col items-center justify-center gap-[16px] bg-gray01">
+        <div className="flex w-full flex-col items-center justify-center bg-gray01 py-[70px]">
           <div className="relative h-[74px] w-[74px] overflow-hidden rounded-full">
             <Image
-              src={previewImage || '/images/default-profile.png'}
+              src={displayProfileImage}
               alt="프로필 이미지"
               fill
               className="object-cover"
               sizes="74px"
             />
           </div>
-          <SButton
-            onClick={handleSelectProfileImage}
-            size="md"
-            className="h-[40px] !w-auto rounded-[20px] bg-gray04 px-[16px] text-16 text-gray06"
-          >
-            프로필 사진 변경
-          </SButton>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleImageChange}
-          />
         </div>
 
         <div className="mx-[16px] mt-[26px] flex flex-col gap-[12px]">
