@@ -15,6 +15,8 @@ import { useRouter } from 'next/navigation'
 type ReviewItemProps = {
   review: Review
   onDeleteSuccess?: () => void
+  /** 무한스크롤 등: 신고 완료 시 해당 리뷰 isReported만 클라이언트에서 true로 */
+  onReportSuccess?: (reviewId: number) => void | Promise<void>
 }
 
 type ReviewGuideInfoProps = {
@@ -33,6 +35,7 @@ type MorePopupProps = {
   isMyReview: boolean
   reviewId: number
   onDeleteSuccess?: () => void
+  onReportSuccess?: (reviewId: number) => void | Promise<void>
 }
 
 function ReviewGuideInfo({ title, value }: ReviewGuideInfoProps) {
@@ -74,7 +77,7 @@ function ReviewDetailInfo({ people, hint, remainingTime, elapsedTime }: ReviewDe
   )
 }
 
-function MorePopup({ isMyReview, reviewId, onDeleteSuccess }: MorePopupProps) {
+function MorePopup({ isMyReview, reviewId, onDeleteSuccess, onReportSuccess }: MorePopupProps) {
   const { showToast } = useToast()
   const router = useRouter()
 
@@ -115,7 +118,9 @@ function MorePopup({ isMyReview, reviewId, onDeleteSuccess }: MorePopupProps) {
       props: {
         title: '신고',
       },
-      view: <ReportModalContent reviewId={reviewId} />,
+      view: (
+        <ReportModalContent reviewId={reviewId} onSuccess={() => onReportSuccess?.(reviewId)} />
+      ),
     })
   }
   return (
@@ -146,7 +151,7 @@ function MorePopup({ isMyReview, reviewId, onDeleteSuccess }: MorePopupProps) {
   )
 }
 
-export default function ReviewItem({ review, onDeleteSuccess }: ReviewItemProps) {
+export default function ReviewItem({ review, onDeleteSuccess, onReportSuccess }: ReviewItemProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const year = date.getFullYear()
@@ -169,10 +174,13 @@ export default function ReviewItem({ review, onDeleteSuccess }: ReviewItemProps)
           isMyReview={review.isMyReview}
           reviewId={review.id}
           onDeleteSuccess={onDeleteSuccess}
+          onReportSuccess={onReportSuccess}
         />
       ),
     })
   }
+
+  const isReported = Boolean(review.isReported)
 
   return (
     <div className="flex flex-col gap-[12px] border-b border-gray02 py-[24px] last:mb-0 last:border-b-0">
@@ -186,9 +194,11 @@ export default function ReviewItem({ review, onDeleteSuccess }: ReviewItemProps)
             <SChip text="탈출실패" bgColor="#000" textColor="#fff" icon={<IconLockClose />} />
           )}
         </div>
-        <HButton onClick={handleClickMenu}>
-          <IconKebabVertical />
-        </HButton>
+        {!isReported && (
+          <HButton onClick={handleClickMenu}>
+            <IconKebabVertical />
+          </HButton>
+        )}
       </div>
       <div className="flex flex-col gap-[2px] text-[12px]">
         <div className="flex items-center gap-[16px]">
@@ -204,8 +214,14 @@ export default function ReviewItem({ review, onDeleteSuccess }: ReviewItemProps)
         />
         {review.visitDate && <div>방문일 {formatDate(review.visitDate)}</div>}
       </div>
-      {review.content && (
-        <div className="rounded-[2px] bg-gray01 p-[10px] text-[14px]">{review.content}</div>
+      {isReported ? (
+        <div className="rounded-[2px] bg-gray01 p-[10px] text-14 text-gray04">
+          커뮤니티 가이드라인에 따라 숨김 처리된 글입니다.
+        </div>
+      ) : (
+        review.content && (
+          <div className="rounded-[2px] bg-gray01 p-[10px] text-[14px]">{review.content}</div>
+        )
       )}
     </div>
   )

@@ -51,6 +51,7 @@ function convertMyReviewToReview(myReview: MyReview): Review {
     createdAt: myReview.createdAt,
     isMyReview: myReview.isMyReview,
     nickname: myReview.nickname,
+    isReported: myReview.isReported ?? false,
   }
 }
 

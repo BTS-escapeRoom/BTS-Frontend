@@ -8,9 +8,11 @@ import { useModalStore } from '@/store/modalStore'
 
 interface ReportModalContentProps {
   reviewId: number
+  /** 신고 반영 후 무한스크롤 캐시 등 클라이언트 갱신 */
+  onSuccess?: () => void | Promise<void>
 }
 
-export default function ReportModalContent({ reviewId }: ReportModalContentProps) {
+export default function ReportModalContent({ reviewId, onSuccess }: ReportModalContentProps) {
   const [selected, setSelected] = useState('option1')
   const [reason, setReason] = useState('')
   const { showToast } = useToast()
@@ -40,6 +42,7 @@ export default function ReportModalContent({ reviewId }: ReportModalContentProps
       await reportReview({ reviewId, description })
 
       closeModal()
+      await onSuccess?.()
       showToast('신고 처리가 완료되었습니다.', 'success')
     } catch (error) {
       showToast('신고 처리 중 오류가 발생했습니다.', 'error')

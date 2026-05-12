@@ -7,7 +7,8 @@ import FloatingActionButton from '@/components/button/FloatingActionButton'
 import LoginPrompt from './LoginPrompt'
 import ReviewItem from './ReviewItem'
 import { ApiError } from '@/utils/api'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient, type InfiniteData } from '@tanstack/react-query'
+import type { Review } from '@/features/theme/api/getReviews.types'
 import { getReviewAvailable } from '@/features/theme/api/getReviewAvailable'
 import { useToast } from '@/hooks/useToast'
 
@@ -25,6 +26,18 @@ export default function ReviewList({ themeId }: ReviewListProps) {
   const handleDeleteSuccess = () => {
     // 리뷰 목록 쿼리 무효화하여 다시 불러오기
     queryClient.invalidateQueries({ queryKey: ['reviews', themeId] })
+  }
+
+  const handleReportSuccess = (reviewId: number) => {
+    queryClient.setQueryData<InfiniteData<Review[]>>(['reviews', themeId], (old) => {
+      if (!old) return old
+      return {
+        ...old,
+        pages: old.pages.map((page) =>
+          page.map((r) => (r.id === reviewId ? { ...r, isReported: true } : r)),
+        ),
+      }
+    })
   }
 
   // 401 에러(로그인 필요)인 경우 로그인 프롬프트 표시
@@ -71,7 +84,12 @@ export default function ReviewList({ themeId }: ReviewListProps) {
       ) : (
         <>
           {reviews.map((review) => (
-            <ReviewItem key={review.id} review={review} onDeleteSuccess={handleDeleteSuccess} />
+            <ReviewItem
+              key={review.id}
+              review={review}
+              onDeleteSuccess={handleDeleteSuccess}
+              onReportSuccess={handleReportSuccess}
+            />
           ))}
 
           {hasNextPage && (

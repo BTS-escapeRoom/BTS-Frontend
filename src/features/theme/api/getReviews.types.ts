@@ -14,6 +14,8 @@ export interface Review {
   createdAt: string
   isMyReview: boolean
   nickname: string
+  /** 신고로 숨김 처리된 리뷰 */
+  isReported?: boolean
 }
 
 export interface ReviewsApiResponse {

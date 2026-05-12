@@ -42,9 +42,16 @@ type CommentMorePopupProps = {
   comment: BoardCommentApiItem
   onEdit: (comment: BoardCommentApiItem) => void
   onDelete: (comment: BoardCommentApiItem) => void
+  onCommentReportSuccess?: () => void | Promise<void>
 }
 
-function CommentMorePopup({ isMyComment, comment, onEdit, onDelete }: CommentMorePopupProps) {
+function CommentMorePopup({
+  isMyComment,
+  comment,
+  onEdit,
+  onDelete,
+  onCommentReportSuccess,
+}: CommentMorePopupProps) {
   const handleClickCloseSheet = () => {
     useModalStore.setState({ isOpen: false })
   }
@@ -64,7 +71,7 @@ function CommentMorePopup({ isMyComment, comment, onEdit, onDelete }: CommentMor
       props: {
         title: '신고',
       },
-      view: <CommentReportModalContent commentId={comment.id} />,
+      view: <CommentReportModalContent commentId={comment.id} onSuccess={onCommentReportSuccess} />,
     })
   }
 
@@ -98,6 +105,7 @@ type CommentItemProps = {
   boardAuthorMemberId: number
   onEdit: (comment: BoardCommentApiItem) => void
   onDelete: (comment: BoardCommentApiItem) => void
+  onCommentReportSuccess?: () => void | Promise<void>
 }
 
 function CommentItem({
@@ -106,6 +114,7 @@ function CommentItem({
   boardAuthorMemberId,
   onEdit,
   onDelete,
+  onCommentReportSuccess,
 }: CommentItemProps) {
   const router = useRouter()
   const isAuthor = comment.memberId === boardAuthorMemberId
@@ -127,6 +136,7 @@ function CommentItem({
           comment={comment}
           onEdit={onEdit}
           onDelete={onDelete}
+          onCommentReportSuccess={onCommentReportSuccess}
         />
       ),
     })
@@ -175,7 +185,9 @@ function CommentItem({
           {comment.isDeleted ? (
             <span className="text-14 text-gray04">삭제 되었거나 존재하지 않는 댓글입니다.</span>
           ) : comment.isReported ? (
-            <span className="text-14 text-gray04">신고에 의해 숨김 처리 되었습니다.</span>
+            <span className="text-14 text-gray04">
+              커뮤니티 가이드라인에 따라 숨김 처리된 글입니다.
+            </span>
           ) : (
             <span className="text-14 text-gray06">{comment.comment}</span>
           )}
@@ -211,16 +223,17 @@ export default function RecruitBoardComments({
   const currentMemberId = memberInfo?.id ?? null
   const { showToast } = useToast()
 
-  const fetchComments = async () => {
+  const fetchComments = async (options?: { silent?: boolean }) => {
+    const silent = options?.silent ?? false
     try {
-      setIsLoading(true)
+      if (!silent) setIsLoading(true)
       const data = await getBoardComments(boardId)
       setComments(data.comments)
     } catch (error) {
       console.error('댓글 조회 실패:', error)
-      setComments([])
+      if (!silent) setComments([])
     } finally {
-      setIsLoading(false)
+      if (!silent) setIsLoading(false)
     }
   }
 

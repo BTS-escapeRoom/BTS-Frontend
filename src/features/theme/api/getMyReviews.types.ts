@@ -14,6 +14,7 @@ export interface MyReview {
   createdAt: string
   isMyReview: boolean
   nickname: string
+  isReported?: boolean
   themeId?: number | null
   themeTitle?: string | null
   themeThumbnail?: string | null

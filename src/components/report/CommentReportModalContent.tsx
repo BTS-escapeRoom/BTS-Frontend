@@ -10,9 +10,14 @@ import { reportComment } from '@/features/board/api/reportComment'
 
 interface CommentReportModalContentProps {
   commentId: number
+  /** 신고 반영 후 댓글 목록 재조회 등 */
+  onSuccess?: () => void | Promise<void>
 }
 
-export default function CommentReportModalContent({ commentId }: CommentReportModalContentProps) {
+export default function CommentReportModalContent({
+  commentId,
+  onSuccess,
+}: CommentReportModalContentProps) {
   const [selected, setSelected] = useState('option1')
   const [reason, setReason] = useState('')
   const { showToast } = useToast()
@@ -34,6 +39,7 @@ export default function CommentReportModalContent({ commentId }: CommentReportMo
     try {
       await reportComment({ commentId, description })
       closeModal()
+      await onSuccess?.()
       showToast('신고 처리가 완료되었습니다.', 'success')
     } catch (error) {
       showToast('신고 처리 중 오류가 발생했습니다.', 'error')
