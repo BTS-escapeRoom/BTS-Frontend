@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useInfiniteReviews } from '@/features/theme/hooks/useReviewsQuery'
-import SButton from '@/components/button/SButton'
 import FloatingActionButton from '@/components/button/FloatingActionButton'
+import { IconChevronDown } from '@/components/icons'
 import LoginPrompt from './LoginPrompt'
 import ReviewItem from './ReviewItem'
 import { ApiError } from '@/utils/api'
@@ -93,23 +93,35 @@ export default function ReviewList({ themeId }: ReviewListProps) {
           ))}
 
           {hasNextPage && (
-            <div className="mt-[24px]">
-              <SButton
+            <div className="mt-[24px] flex w-full items-center gap-0">
+              <div className="h-px min-w-0 flex-1 bg-gray03" aria-hidden />
+              <button
+                type="button"
                 onClick={() => fetchNextPage()}
                 disabled={isFetchingNextPage}
-                className="text-gray08 bg-gray06 hover:bg-gray05 disabled:bg-gray04"
+                className="inline-flex h-[24px] shrink-0 items-center gap-1 px-4 text-[16px] font-semibold leading-4 text-[#8B8B8C] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {isFetchingNextPage ? '로딩 중...' : '리뷰 더보기'}
-              </SButton>
+                {isFetchingNextPage ? (
+                  <span>로딩 중...</span>
+                ) : (
+                  <>
+                    <span>리뷰 더보기</span>
+                    <IconChevronDown width={16} height={16} fill="#8B8B8C" aria-hidden />
+                  </>
+                )}
+              </button>
+              <div className="h-px min-w-0 flex-1 bg-gray03" aria-hidden />
             </div>
           )}
         </>
       )}
 
-      {/* 리뷰 작성 버튼 - 항상 우측 하단에 고정 (네비게이션 높이 고려) */}
-      <div className="fixed bottom-[72px] left-1/2 w-full max-w-[600px] -translate-x-1/2 px-[16px]">
-        <div className="flex justify-end">
-          <FloatingActionButton text="리뷰 작성" onClick={handleWriteReview} />
+      {/* 전체 너비 fixed 영역은 통과, 실제 버튼만 클릭 수신 */}
+      <div className="pointer-events-none fixed bottom-[72px] left-1/2 z-10 w-full max-w-[600px] -translate-x-1/2 px-[16px]">
+        <div className="pointer-events-none flex justify-end">
+          <div className="pointer-events-auto shrink-0">
+            <FloatingActionButton text="리뷰 작성" onClick={handleWriteReview} />
+          </div>
         </div>
       </div>
     </div>
