@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { apiPut } from '@/utils/api'
+import { useAuthStore } from '@/features/auth/store/authStore'
 
 type SetNicknamePayload = {
   nickname?: string
@@ -9,6 +10,9 @@ type SetNicknamePayload = {
 
 export function useSetNickname() {
   return useMutation({
-    mutationFn: (payload: SetNicknamePayload) => apiPut('/v1/members', payload),
+    mutationFn: async (payload: SetNicknamePayload) => {
+      await apiPut('/v1/members', payload)
+      await useAuthStore.getState().fetchMemberInfo()
+    },
   })
 }
