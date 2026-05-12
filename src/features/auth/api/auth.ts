@@ -8,7 +8,11 @@ export interface LogoutResponse {
   message: string
 }
 
-// 쿠키 제거 헬퍼 함수
+/**
+ * document.cookie 로 만료시키는 방식은 HttpOnly 쿠키에는 적용되지 않습니다.
+ * HttpOnly+Secure+SameSite=None 인 refresh-token 은 반드시 API 응답의 Set-Cookie(동일 path/domain 등)로 서버가 지워야 합니다.
+ * 이 함수는 Non-HttpOnly(로컬 스텁 등) 대비용입니다.
+ */
 function removeRefreshTokenCookie() {
   if (typeof document === 'undefined') return
 
@@ -22,6 +26,11 @@ function removeRefreshTokenCookie() {
     const hostnameParts = hostname.split('.')
     if (hostnameParts.length > 2) {
       domains.add(`.${hostnameParts.slice(-2).join('.')}`)
+    }
+
+    // apex(bangtal-boys.com)에서는 위 분기로 `.bangtal-boys.com`이 빠짐. 서버가 Domain=.bangtal-boys.com 으로 준 refresh-token 제거
+    if (hostname === 'bangtal-boys.com' || hostname.endsWith('.bangtal-boys.com')) {
+      domains.add('.bangtal-boys.com')
     }
   }
 
@@ -60,6 +69,6 @@ export async function refreshAccessToken(): Promise<string | null> {
 
 // 로그아웃
 export async function logout(): Promise<void> {
-  // 서버 로그아웃 API가 안정화되기 전까지는 네트워크 호출 없이 클라이언트 상태만 정리한다.
+  // HttpOnly refresh-token 은 아래로 지울 수 없음 → 백엔드 로그아웃(또는 세션 무효화) API에서 Set-Cookie 로 만료 필요
   removeRefreshTokenCookie()
 }
