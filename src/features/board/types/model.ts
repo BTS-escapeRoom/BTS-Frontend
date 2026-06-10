@@ -34,7 +34,7 @@ export type BoardDetail = {
   contactUrl: string | null
   contactMethod: string
   hit: number
-  reportStatus: string
+  isReported: boolean
   likeCount: number
   commentCount: number
   createdAt: string // ISO 8601 형식: 2025-12-09T18:22:36.644+00:00

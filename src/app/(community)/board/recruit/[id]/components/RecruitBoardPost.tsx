@@ -203,6 +203,11 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
 
   const deadlineInfo = getDeadlineInfo(board.recruitDeadline)
   const escapeDateFormatted = formatEscapeDate(board.escapeDate)
+  const displayTitle = board.isReported ? '숨김 처리된 글입니다.' : board.title
+  const displayDescription = board.isReported
+    ? '커뮤니티 가이드라인에 따라 숨김 처리된 글입니다.'
+    : board.description
+
 
   const themeDetail = board.theme
   const themeId = themeDetail?.id ? themeDetail.id.toString() : null
@@ -210,6 +215,15 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
   // 관심글 여부 및 카운트 상태 (초기값: API 응답 기준)
   const [isLiked, setIsLiked] = useState<boolean>(board.isLike)
   const [likeCount, setLikeCount] = useState<number>(board.likeCount)
+
+  if (board.isReported) {
+    return (
+      <div className="px-4 pt-8">
+        <h1 className="text-18 font-bold leading-[140%] text-gray07">{displayTitle}</h1>
+        <p className="mt-8 text-16 leading-[150%] text-gray05">{displayDescription}</p>
+      </div>
+    )
+  }
 
   // 테마 정보 클릭 핸들러
   const handleThemeClick = () => {
@@ -289,7 +303,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
     <div className="px-4 py-4">
       {/* 제목 영역 */}
       <h1 className="whitespace-pre-wrap break-words text-18 font-bold text-gray07">
-        {board.title}
+        {displayTitle}
       </h1>
 
       {/* 작성정보 영역 */}
@@ -399,7 +413,7 @@ export default function RecruitBoardPost({ board }: RecruitBoardPostProps) {
         <h2 className="text-14 font-bold text-gray06">모집 내용</h2>
         <div className="mt-1 border-b border-t border-gray02 pb-4 pt-4">
           <div className="whitespace-pre-wrap break-words text-14 text-gray07">
-            {board.description}
+            {displayDescription}
           </div>
         </div>
       </div>

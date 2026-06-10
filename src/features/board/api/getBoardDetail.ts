@@ -18,7 +18,7 @@ function mapToBoardDetail(item: BoardDetailApiItem): BoardDetail {
     contactUrl: item.contactUrl,
     contactMethod: item.contactMethod,
     hit: item.hit,
-    reportStatus: item.reportStatus,
+    isReported: item.isReported,
     likeCount: item.likeCount,
     commentCount: item.commentCount,
     createdAt: item.createdAt,

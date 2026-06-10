@@ -111,11 +111,13 @@ function RecruitBoardDetailContent({ params }: RecruitBoardDetailPageProps) {
           <RecruitBoardPost board={board} />
 
           {/* 댓글 영역 */}
-          <RecruitBoardComments
-            boardId={board.id}
-            commentCount={board.commentCount}
-            boardAuthorMemberId={board.memberId}
-          />
+          {!board.isReported && (
+            <RecruitBoardComments
+              boardId={board.id}
+              commentCount={board.commentCount}
+              boardAuthorMemberId={board.memberId}
+            />
+          )}
         </div>
       </div>
 

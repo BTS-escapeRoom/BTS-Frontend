@@ -17,7 +17,7 @@ export type BoardDetailApiItem = {
   updatedAt: string // ISO 8601 형식: 2025-12-09T18:22:36.644+00:00
   recruitDeadline: string // ISO 8601 형식: 2025-12-09T18:22:36.644+00:00
   hit: number
-  reportStatus: string
+  isReported: boolean
   likeCount: number
   commentCount: number
   isPopular: boolean
