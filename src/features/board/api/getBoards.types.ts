@@ -26,6 +26,7 @@ export type BoardApiItem = {
   createdAt: string
   updatedAt: string
   isPopular: boolean
+  isReported: boolean
 }
 
 // API 응답 전체 스키마

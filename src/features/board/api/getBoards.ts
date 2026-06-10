@@ -41,6 +41,7 @@ function mapToBoard(item: BoardApiItem): Board {
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
     isPopular: item.isPopular,
+    isReported: item.isReported,
   }
 }
 

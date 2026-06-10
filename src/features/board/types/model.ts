@@ -16,6 +16,7 @@ export type Board = {
   createdAt: string
   updatedAt: string
   isPopular: boolean
+  isReported: boolean
 }
 
 import type { ThemeDetail } from '@/features/theme/api/getThemeDetail.types'
@@ -24,7 +25,6 @@ export type BoardDetail = {
   id: number
   type: 'recruit' | 'normal'
   title: string
-  description: string
   memberId: number
   memberName: string
   theme: ThemeDetail

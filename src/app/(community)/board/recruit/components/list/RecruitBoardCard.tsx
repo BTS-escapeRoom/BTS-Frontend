@@ -29,6 +29,7 @@ export default function RecruitBoardCard({
     commentCount,
     createdAt,
     isPopular,
+    isReported,
   } = board
 
   const handleClick = () => {
@@ -129,6 +130,20 @@ export default function RecruitBoardCard({
 
   const deadlineInfo = getDeadlineText()
   const isClosed = deadlineInfo.text === '모집 마감'
+
+  if (isReported) {
+    return (
+      <div
+        onClick={handleClick}
+        className={`cursor-pointer border-t-[6px] border-gray02 bg-white px-4 py-4 transition-colors ${isLast ? 'border-b-[6px]' : ''}`}
+      >
+        <h3 className="text-16 font-semibold leading-[150%] text-gray06">숨김 처리된 글입니다.</h3>
+        <p className="mt-6 text-14 leading-[150%] text-gray05">
+          커뮤니티 가이드라인에 따라 숨김 처리된 글입니다.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div
