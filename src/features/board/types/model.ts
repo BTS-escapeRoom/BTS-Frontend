@@ -25,6 +25,7 @@ export type BoardDetail = {
   id: number
   type: 'recruit' | 'normal'
   title: string
+  description: string
   memberId: number
   memberName: string
   theme: ThemeDetail
